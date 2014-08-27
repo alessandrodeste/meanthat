@@ -1,0 +1,8 @@
+ Unclean shutdown detected after unexpected shutdown MongoDB
+
+sudo rm /data/db/mongod.lock
+sudo mongod --dbpath /data/db --repair
+sudo mongod --dbpath /data/db
+
+
+./mongod --repair

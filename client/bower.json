@@ -1,0 +1,44 @@
+{
+  "name": "nodethat",
+  "version": "0.0.1",
+  "authors": [
+    "ale.deste <alessandrod.este@gmail.com>"
+  ],
+  "description": "xxx",
+  "main": "index.html",
+  "keywords": [
+    "immobili",
+    "immobiliare",
+    "mobile"
+  ],
+  "license": "Commercial",
+  "homepage": "ale.deste.org",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "dist",
+    "node_modules",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-loader": "~1.2.11",
+    "angular-cookies": "~1.2.11",
+    "angular-sanitize": "~1.2.11",
+    "angular-route": "~1.2.11",
+    "angular-resource": "~1.2.11",
+    "angular-carousel": "~0.2.0",
+    "angular-bootstrap": "~0.10.0",
+    "angular-touch": "~1.2.11",
+    "bootstrap": "~3.1.1",
+    "jquery": "~2.1.0",
+    "requirejs": "~2.1.10",
+    "angular-google-maps": "~1.0.15"
+},
+  "resolutions": {
+    "angular": "1.2.11"
+  }
+}
