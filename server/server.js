@@ -25,12 +25,13 @@ mongoose.connect('mongodb://localhost/nodethatdb'); // connect to our database
 
 // Routing around
 // =============================================================================
-
 require('./app/routes/appFile').addRoutes(app, config);
 require('./app/routes/static').addRoutes(app, config);
-require('./app/routes/cdxhr').addRoutes(app, config);
 
-app.use('/api/tasks',   require('./app/routes/tasks'));
+app.use('/api/tasks',             require('./app/routes/tasks'));
+app.use('/api/tasks/:task_id',    require('./app/routes/task'));
+app.use('/api/users',             require('./app/routes/users'));
+app.use('/api/users/:user_id',    require('./app/routes/user'));
 
 // This route deals enables HTML5Mode by forwarding missing files to the index.html
 app.all('/*', function(req, res) {
@@ -41,11 +42,9 @@ app.all('/*', function(req, res) {
 
 // START THE SERVER
 // =============================================================================
-var port = process.env.PORT || 3000;
-var ip = process.env.IP || "0.0.0.0";
-app.listen(port, ip, function(){
+app.listen(config.server.listenPort, config.server.ip, function(){
   //var addr = router.address();
-  console.log("Server listening at", ip, ":", port);
+  console.log("Server listening at", config.server.ip, ":", config.server.listenPort);
 });
 
 

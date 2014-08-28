@@ -1,5 +1,5 @@
 {
-  "name": "nodethat",
+  "name": "meanthat",
   "version": "0.0.1",
   "authors": [
     "ale.deste <alessandrod.este@gmail.com>"
@@ -11,7 +11,7 @@
     "immobiliare",
     "mobile"
   ],
-  "license": "Commercial",
+  "license": "ApacheV2",
   "homepage": "ale.deste.org",
   "private": true,
   "ignore": [
