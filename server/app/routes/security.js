@@ -1,19 +1,29 @@
-exports.addRoutes = function(app, security) {
 
-app.post('/login', security.login);
-app.post('/logout', security.logout);
 
-// Retrieve the current user
-app.get('/current-user', security.sendCurrentUser);
+var express = require('express'); 		// call express
+var router  = express.Router(); 		// get an instance of the express Router
+
+
+router.route('/login').post(function(req, res) {
+	//security.login
+});
+
+router.route('/logout').post(function(req, res) {
+	//security.logout
+});
+    
+router.route('/current-user').get(function(req, res) {
+	//security.sendCurrentUser
+});
 
 // Retrieve the current user only if they are authenticated
-app.get('/authenticated-user', function(req, res) {
-  security.authenticationRequired(req, res, function() { security.sendCurrentUser(req, res); });
+router.route('/authenticated-user').get(function(req, res) {
+  //security.authenticationRequired(req, res, function() { security.sendCurrentUser(req, res); });
 });
 
 // Retrieve the current user only if they are admin
-app.get('/admin-user', function(req, res) {
-  security.adminRequired(req, res, function() { security.sendCurrentUser(req, res); });
+router.route('/admin-user').get(function(req, res) {
+  // security.adminRequired(req, res, function() { security.sendCurrentUser(req, res); });
 });
 
-};
+module.exports = router;

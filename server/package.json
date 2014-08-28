@@ -1,13 +1,25 @@
 {
   "name": "nodethat",
+  "description": "Back end server to support our angular app",
   "version": "0.0.1",
   "main": "server.js",
   "private": true,
   "dependencies": {
     "body-parser": "^1.0.2",
+    "express-namespace": "~0.1.1",
+    "passport": "~0.1.12",
+    "passport-local": "~0.1.6",
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
     "express": "~4.2.0",
+    "open": "0.0.3",
     "mongoose": "^3.8.15"
+  },
+  "devDependencies": {
+    "grunt": "~0.4",
+    "grunt-contrib-jshint": "~0.2.0",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "rewire": "^2.0.1",
+    "supervisor": "~0.4.1"
   }
 }
