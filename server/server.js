@@ -10,15 +10,25 @@ var cookieParser = require('cookie-parser');
 var mongoose     = require('mongoose');
 var path         = require('path'); 
 var config 			 = require('./app/config.js');
-var security     = require('./app/security');
+var security     = require('./app/security/security');
+var protectJSON  = require('./app/security/protectJSON');
+var passport     = require('passport');
+var morgan       = require('morgan');
+//var xsrf         = require('./app/security/xsrf');
 require('express-namespace');
 
-// configure app to use bodyParser()
-// this will let us get the data from a POST
-//app.use(require('connect').bodyParser());
+app.use(morgan('dev')); // log every request to the console
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-//app.use(express.cookieParser());
+// app.use(protectJSON);
+
+app.use(express.logger()); // usare morgan
+app.use(express.cookieParser(config.server.cookieSecret));  // Hash cookies with this secret
+app.use(express.cookieSession());                           // Store the session in the (secret) cookie
+app.use(passport.initialize());                             // Initialize PassportJS
+app.use(passport.session());                                // Use Passport's session authentication strategy - this stores the logged in user in the session and will now run on any request
+//app.use(xsrf);                                            // Add XSRF checks to the request
+security.initialize(config.mongo.dbUrl, config.mongo.apiKey, config.security.dbName, config.security.usersCollection); // Add a Mongo strategy for handling the authentication
 
 // connect mongodb
 mongoose.connect('mongodb://localhost/nodethatdb'); // connect to our database
@@ -27,28 +37,28 @@ mongoose.connect('mongodb://localhost/nodethatdb'); // connect to our database
 // =============================================================================
 // Security checks
 app.all('/api/security', function(req, res, next) {
-  Console.log('check /api/security');
+  console.log('check /api/security');
   // Free for all
   next();
 });
 app.all('/public', function(req, res, next) {
-  Console.log('check /public');
+  console.log('check /public');
   // Free for all
   next();
 });
 app.all('/*', function(req, res, next) {
-  Console.log('check /*');
+  console.log('check /*');
   // We require the user is authenticated to execute any action except login
   security.authenticationRequired(req, res, next);
 });
 
 // Rouging around
-require('./app/routes/appFile').addRoutes(app, config);
-require('./app/routes/static').addRoutes(app, config);
+require('./app/routes/appFile')(app, config);
+require('./app/routes/static')(app, config);
+require('./app/routes/security')(app, config);
 
-app.use('/api/security',         require('./app/routes/security'));
 app.use('/api/tasks',            require('./app/routes/tasks'));
-app.use('/api/tasks/:task_id',   require('./app/routes/task'));
+app.use('/api/tasks',            require('./app/routes/task'));
 app.use('/api/users',            require('./app/routes/users'));
 app.use('/api/users/:user_id',   require('./app/routes/user'));
 

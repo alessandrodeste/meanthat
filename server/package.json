@@ -5,15 +5,18 @@
   "main": "server.js",
   "private": true,
   "dependencies": {
+    "bcrypt": "^0.8.0",
     "body-parser": "^1.0.2",
-    "express-namespace": "~0.1.1",
-    "passport": "~0.1.12",
-    "passport-local": "~0.1.6",
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
     "express": "~4.2.0",
+    "express-namespace": "~0.1.1",
+    "mongoose": "^3.8.15",
+    "morgan": "^1.2.3",
     "open": "0.0.3",
-    "mongoose": "^3.8.15"
+    "passport": "~0.1.12",
+    "passport-google-oauth": "^0.1.5",
+    "passport-local": "~0.1.6"
   },
   "devDependencies": {
     "grunt": "~0.4",

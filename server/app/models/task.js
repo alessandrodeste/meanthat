@@ -54,6 +54,8 @@ var TaskSchema   = new Schema({
 	documents: [DocumentSchema],
 	fg_close: Boolean,
 	fg_archived: Boolean
+}, {
+  collection: 'tasks'
 });
 
 module.exports = mongoose.model('Task', TaskSchema);

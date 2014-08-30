@@ -2,7 +2,7 @@
 var express = require('express'); 		// call express
 var router  = express.Router(); 		// get an instance of the express Router
 
-exports.addRoutes = function(app, config) {
+module.exports = function(app, config) {
      
     // cross domain xhr
     router.all('*', function(req, res, next) {

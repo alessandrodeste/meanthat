@@ -15,7 +15,30 @@ module.exports = {
     ip: process.env.IP || "0.0.0.0",
     distFolder: path.resolve(__dirname, '../public/'),  // The folder that contains the application files (note that the files are in a different repository) - relative to this file
     staticUrl: '/',                               // The base url from which we serve static files (such as js, css and images)
-    cookieSecret: 'angular-app'                         // The secret for encrypting the cookie
+    cookieSecret: 'meanthat'                         // The secret for encrypting the cookie
     
+  },
+  
+  external_api: {
+      
+  	'facebookAuth' : {
+  		'clientID' 		: 'your-secret-clientID-here', // your App ID
+  		'clientSecret' 	: 'your-client-secret-here', // your App Secret
+  		'callbackURL' 	: 'http://localhost:8080/auth/facebook/callback'
+  	},
+  
+  	'twitterAuth' : {
+  		'consumerKey' 		: 'your-consumer-key-here',
+  		'consumerSecret' 	: 'your-client-secret-here',
+  		'callbackURL' 		: 'http://localhost:8080/auth/twitter/callback'
+  	},
+  
+  	'googleAuth' : {
+  		'clientID' 		: 'your-secret-clientID-here',
+  		'clientSecret' 	: 'your-client-secret-here',
+  		'callbackURL' 	: 'http://localhost:8080/auth/google/callback'
+  	}
+
   }
+  
 };

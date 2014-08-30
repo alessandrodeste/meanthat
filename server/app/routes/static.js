@@ -1,6 +1,6 @@
 var express = require('express');
 
-exports.addRoutes = function(app, config) {
+module.exports =function(app, config) {
     // Serve up the favicon
     //app.use(express.favicon(config.server.distFolder + '/favicon.ico'));
   

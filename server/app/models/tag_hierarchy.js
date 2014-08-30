@@ -8,6 +8,8 @@ var TagHierarchySchema   = new Schema({
 	parent: String,
 	flags: [String],
 	order: Number
+}, {
+  collection: 'tag_hierarchies'
 });
 
 module.exports = mongoose.model('TagHierarchy', TagHierarchySchema);
