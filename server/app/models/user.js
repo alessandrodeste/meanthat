@@ -51,6 +51,7 @@ var UserSchema   = new Schema({
   collection: 'userInfo'
 });
 
+// FIXME: local.password
 UserSchema.pre('save', function(next) {
     var user = this;
 
@@ -90,6 +91,10 @@ UserSchema.virtual('isLocked').get(function() {
     return !!(this.lockUntil && this.lockUntil > Date.now());
 });
 
+// checking if password is valid (used by scotch.io)
+UserSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.local.password);
+};
 
 
 
@@ -117,8 +122,8 @@ var reasons = UserSchema.statics.failedLogin = {
     MAX_ATTEMPTS: 2
 };
 
-UserSchema.statics.getAuthenticated = function(username, password, cb) {
-    this.findOne({ username: username }, function(err, user) {
+UserSchema.statics.getAuthenticated = function(email, password, cb) {
+    this.findOne({ 'local.email': email }, function(err, user) {
         if (err) return cb(err);
 
         // make sure the user exists

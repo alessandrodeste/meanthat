@@ -3,12 +3,10 @@ meanthat
 
 This is a prototype of mean stack project. *For now, just an experiment.*
 
-I thank [Angular-App](https://github.com/angular-app/angular-app) project.
-
 ## What's working now?
 
 [ ] mongodb init (not started)
-[-] server (started)
+[ ] server (started)
 [ ] client (not started)
 
 ## Goals
@@ -16,8 +14,12 @@ I thank [Angular-App](https://github.com/angular-app/angular-app) project.
 1. Find a compromise on folder/file organization
 2. Try mongodb security and pattern
 3. Configure Grunt to test his magics
-4. Have a scaffolding project (no, I will not use yo for now)
+4. Have a structured project to start others (no, I will not use yo for now)
 5. Keep a repository to test new patterns or libraries
+
+## What is not?
+
+- it is not yo scaffolding
 
 ## TODO
 
@@ -43,3 +45,12 @@ I thank [Angular-App](https://github.com/angular-app/angular-app) project.
 3. npm install (client & server)
 4. grunt (client)
 5. start server
+
+## Thank you time
+
+I thank: 
+- [Angular-App](https://github.com/angular-app/angular-app) project
+- [Auth Scotch-io](https://github.com/scotch-io/easy-node-authentication) project
+- [Devsmash](http://devsmash.com/blog/implementing-max-login-attempts-with-mongoose)
+- All nodejs/angularjs modules teams! :D
+
