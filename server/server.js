@@ -9,7 +9,7 @@ var bodyParser   = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session      = require('express-session');
 var mongoose     = require('mongoose');
-var config 			 = require('./app/config.js');
+var config 			 = require('./config.js');
 var passport     = require('passport');
 var morgan       = require('morgan');
 var flash        = require('connect-flash');
@@ -31,11 +31,11 @@ app.use(passport.session());                                // Use Passport's se
 //app.use(xsrf); // is needed??!                            // Add XSRF checks to the request
 
 // init passport strategies
-require('./app/security/strategies')(passport);
+require('./app/security/strategies')(passport, config);
 
 // connect mongodb
 // TODO: move to mongolab 
-// mongoose.connect('mongodb://localhost/nodethatdb'); // connect to our database
+mongoose.connect('mongodb://' + config.mongo.dbUrl + '/' + config.security.dbName); // connect to our database
 
 // Routing
 // =============================================================================

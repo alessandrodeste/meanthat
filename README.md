@@ -39,7 +39,7 @@ This is a prototype of mean stack project. *For now, just an experiment.*
 ## To Run
 
 1. configurations
-    1. server/app/config.js
+    1. server/config.js.ori to server/config.js
     2. client/???/config.js (TODO)
 2. start mongodb
 3. npm install (client & server)
