@@ -5,9 +5,9 @@ This is a prototype of mean stack project. *For now, just an experiment.*
 
 ## What's working now?
 
-[ ] mongodb init (not started)
-[ ] server (started)
-[ ] client (not started)
+- [ ] mongodb init (not started)
+- [ ] server (started)
+- [ ] client (not started)
 
 ## Goals
 
@@ -23,18 +23,18 @@ This is a prototype of mean stack project. *For now, just an experiment.*
 
 ## TODO
 
-[ ] client
-    [ ] base angularjs application
-    [ ] index.html
-    [ ] web service test
-    [ ] first grunt setup
-[ ] server
-    [ ] security local
-    [ ] security oauth2 google service (passport)
-    [ ] service task
-    [ ] service user
-    [ ] service tag_hierarchy
-[ ] remove useless comment
+- [ ] client
+    - [ ] base angularjs application
+    - [ ] index.html
+    - [ ] web service test
+    - [ ] first grunt setup
+- [ ] server
+    - [ ] security local
+    - [ ] security oauth2 google service (passport)
+    - [ ] service task
+    - [ ] service user
+    - [ ] service tag_hierarchy
+- [ ] remove useless comment
 
 ## To Run
 
