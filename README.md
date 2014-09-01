@@ -5,8 +5,8 @@ This is a prototype of mean stack project. *For now, just an experiment.*
 
 ## What's working now?
 
-- [ ] mongodb init (not started)
 - [ ] server (started)
+- [ ] mongodb init (not started)
 - [ ] client (not started)
 
 ## Goals

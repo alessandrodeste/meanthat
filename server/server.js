@@ -65,7 +65,7 @@ app.all('/*', function(req, res, next) {
 require('./app/routes/appFile')(app, config);
 require('./app/routes/static')(app, config);
 require('./app/routes/security')(app, config);
-// route style
+
 app.use('/api/tasks',            require('./app/routes/tasks'));
 app.use('/api/tasks',            require('./app/routes/task'));
 app.use('/api/users',            require('./app/routes/users'));
