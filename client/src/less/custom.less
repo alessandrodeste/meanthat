@@ -1,0 +1,111 @@
+
+
+
+.home_buttons button {margin-bottom: 15px;}
+.contatto {
+  margin-bottom: 10px;
+  .titolo {font-weight: bold;}
+}
+
+.logo {margin: 10px 0 20px;}
+.contenutoHtml {
+  img {float: left; margin: 10px 20px 20px 0;}
+}
+.ricerca-annunci {
+  margin-bottom: 20px;
+
+  label.col-xs-12 {margin-top: 10px;}
+  .checkboxLabel {
+    margin-top: 10px;
+  }
+}
+
+.dettagli {
+  .info_scheda {display: block;}
+  .titolo_scheda {font-weight: bold;}
+}
+
+.paginationContainer {clear: both;}
+.even .annuncio {}
+.odd .annuncio {background: #EEEECC;}
+
+.annuncio {
+  clear: both;
+  margin-bottom: 10px;
+  height: 200px;
+  padding: 10px;
+
+  .title:first-letter {text-transform: uppercase;}
+  .logo {margin-right: 10px; margin-bottom: 10px;}
+  .logo img {min-height: 80px;}
+  h5 {
+    font-size: 16px;
+  }
+  ul.details {
+    color: #333;
+    padding: 0 0 0 0;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 14px;
+    margin-left: 0px;
+
+    li {
+      padding: 0 0 5px 0;
+      /*
+      display: inline-block;
+      border-right: solid 1px #000000;*/
+    }
+  }
+}
+
+#footer .container {margin: 10px 0; }
+
+/* Per carosello */
+.carosello .rn-carousel-container {float: left;}
+.slider {height: 385px; width: 500px;}
+.thumbs {width: 450px; text-align: center; float: left;}
+.contenuto {clear: both;}
+.thumb {
+  display: inline-block;
+  background-size: cover;
+  border: 1px solid transparent;
+  margin: 2px 4px;
+  width: 60px;
+  height: 40px;
+  transition: border 0.2s ease-in;
+  margin-bottom: 10px;
+}
+
+
+.controllers {margin: 10px 0 30px;}
+
+/* Ridefinizioni per small screen (mobile) */
+@media (max-width: 900px) {
+
+
+  .container {
+    img {max-width: 100%;}
+  }
+
+  .carosello .rn-carousel-container {float: none;}
+  .annuncio {
+    .logo img { width: 160px; min-height: 80px; }
+  }
+  .scrollThumbs {
+    overflow-y: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: 55px;
+  }
+
+  .slider {height: 230px; width: 100%;}
+  .thumbs {
+    width: 100%;
+    display: block;
+    float: none;
+
+  }
+  .contenutoHtml {
+    img {display: block; float: none;}
+  }
+}

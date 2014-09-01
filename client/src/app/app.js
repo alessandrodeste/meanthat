@@ -1,3 +1,16 @@
+
+angular.module('app', [
+    'ngRoute',
+    'ngSanitize',
+    'ngCookies',
+    'angular-carousel',
+    'ui.bootstrap',
+    'templates.app',
+    //'templates.common'
+    'staticpages'
+	]);
+ 
+
 angular.module('app', [
   'ngRoute'
   //'projectsinfo',
@@ -79,3 +92,61 @@ angular.module('app').controller('HeaderCtrl', ['$scope', '$location', '$route',
   };
 }]);
 */
+
+
+
+/////////////////////////////////////
+
+
+angular.module('app').config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
+  
+	$routeProvider
+        .when('/home',                      {templateUrl: 'staticpages/home.tpl.html', controller: 'HomeCtrl', title: 'Home'})
+        .when('/about',                     {templateUrl: 'staticpages/about.tpl.html', controller: 'AboutCtrl', title: 'About'})
+        .when('/contacts',                  {templateUrl: 'staticpages/contacts.tpl.html', controller: 'ContactsCtrl', title: 'Contatti'})
+
+        .otherwise({redirectTo: '/home'});
+
+    //$locationProvider.html5Mode(true);
+    $locationProvider.hashPrefix('');
+
+ }]);
+
+
+angular.module('app').run(function($rootScope) {
+
+    $rootScope.title = "Annunci Immobiliari";
+    $rootScope.$on("$routeChangeSuccess", function(event, currentRoute, previousRoute) {
+        $rootScope.title = currentRoute.title;
+    });
+
+});
+
+
+/*
+$rootScope.$on("$routeChangeSuccess", function(current) {
+	var authRequired = $route.current && 
+			$route.current.$route && 
+			$route.current.$route.auth;
+	if (authRequired && !signedIn.isSignedIn()) {
+		growl.info("Authentication error",
+					"You need to be signed in to view that page.<br/><br/>" +
+					"Please sign in and we'll have you viewing that page in a jiffy");
+		var currentUrl = $location.url();
+		$location.url("/signin?redirect_url=" + encodeURIComponent(currentUrl));
+	} 
+});
+*/
+
+// TODO: register listener to watch route changes
+//$rootScope.$on("$routeChangeStart", function(event, next, current) {
+//  if ( $rootScope.loggedUser == null ) {
+//    // no logged user, we should be going to #login
+//    if ( next.templateUrl == "partials/login.html" ) {
+//      // already going to #login, no redirect needed
+//    } else {
+//      // not going to #login, we should redirect now
+//      $location.path( "/login" );
+//    }
+//  }         
+//});
