@@ -5,13 +5,15 @@
   "version": "0.0.1",
   "licenses": [
     {
-      "type": "Commercial"
+      "type": "ApacheV2"
     }
   ],
   "engines": {
     "node": ">= 0.8.4"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.2",
     "grunt-contrib-concat": "~0.1.3",
     "grunt-contrib-clean": "~0.4.1",
     "grunt-html2js": "~0.1.9",
@@ -20,10 +22,7 @@
     "grunt-recess": "~0.4.0",
     "grunt-contrib-jshint": "~0.2.0",
     "grunt-contrib-less": "~0.8.3",
-    "grunt-karma": "~0.4.6"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.2",
+    "grunt-karma": "~0.4.6",
     "grunt-recess": "~0.4",
     "grunt-contrib-less": "~0.8.3",
     "grunt-contrib-clean": "~0.4.0",

@@ -1,5 +1,7 @@
 node_modules
+vendor
 dist
 logs/*
 .DS_Store
+tmp
 .idea

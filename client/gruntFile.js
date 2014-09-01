@@ -5,16 +5,14 @@ module.exports = function (grunt) {
 
     // load grunt config
     //require('load-grunt-config')(grunt);
-
     require('load-grunt-tasks')(grunt);
 
   // Default task (check errors, exec build, karma)
   grunt.registerTask('default', ['jshint','build']); //,'karma:unit'
-  grunt.registerTask('cleanall', ['clean']);
+  grunt.registerTask('cleanAll', ['clean']);
   grunt.registerTask('build', ['clean','html2js','concat','less:development','copy:assets']); //'recess:build'
-  grunt.registerTask('release', ['clean','html2js','uglify','jshint', 'concat:dist', 'concat:index','less:production','copy:assets']);
-  // grunt.registerTask('release', ['clean','html2js','uglify','jshint','karma:unit','concat:index', 'recess:min','copy:assets']);
-  // grunt.registerTask('test-watch', ['karma:watch']);
+  grunt.registerTask('release', ['clean','html2js','uglify','jshint', 'concat:dist', 'concat:index','less:production','copy:assets']);//,'karma:unit','recess:min'
+  //grunt.registerTask('test-watch', ['karma:watch']);
 
   // Print a timestamp (useful for when watching)
   grunt.registerTask('timestamp', function() {
@@ -30,7 +28,7 @@ module.exports = function (grunt) {
   // Project configuration.
   grunt.initConfig({
     distdir: 'dist',
-	tmpdir: 'tmp',
+    tmpdir: 'tmp',
     pkg: grunt.file.readJSON('package.json'),
     banner:
     '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -95,13 +93,13 @@ module.exports = function (grunt) {
       },
       angular: {
         src:['vendor/angular/angular.js', 
-			'vendor/angular-route/angular-route.js', 
-			'vendor/angular-resource/angular-resource.js',
+            'vendor/angular-route/angular-route.js', 
+            'vendor/angular-resource/angular-resource.js',
             'vendor/angular-sanitize/angular-sanitize.js',
             'vendor/angular-cookies/angular-cookies.js',
             'vendor/angular-touch/angular-touch.js',
             'vendor/angular-carousel/dist/angular-carousel.js',
-			'vendor/angular-bootstrap/ui-bootstrap.js',
+            'vendor/angular-bootstrap/ui-bootstrap.js',
             'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
             'vendor/underscore/underscore.js',
             'vendor/angular-google-maps/dist/angular-google-maps.js'],
@@ -192,7 +190,7 @@ module.exports = function (grunt) {
       files:['gruntFile.js', '<%= src.js %>', '<%= src.jsTpl %>', '<%= src.specs %>', '<%= src.scenarios %>'],
       options:{
         curly:true,
-        debug: false, // <--- da settare a false in produzione
+        debug: false, // <--- set to false in production
         eqeqeq:true,
         immed:true,
         latedef:true,

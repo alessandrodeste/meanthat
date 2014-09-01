@@ -7,9 +7,7 @@
   "description": "xxx",
   "main": "index.html",
   "keywords": [
-    "immobili",
-    "immobiliare",
-    "mobile"
+    "mean"
   ],
   "license": "ApacheV2",
   "homepage": "ale.deste.org",
@@ -37,8 +35,5 @@
     "jquery": "~2.1.0",
     "requirejs": "~2.1.10",
     "angular-google-maps": "~1.0.15"
-},
-  "resolutions": {
-    "angular": "1.2.11"
   }
 }
