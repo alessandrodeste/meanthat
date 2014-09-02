@@ -114,7 +114,7 @@ module.exports = function (grunt) {
         dest: '<%= distdir %>/bootstrap.js'
       },
       jquery: {
-        src:['vendor/jquery/jquery.js'],
+        src:['vendor/jquery/dist/jquery.js'],
         dest: '<%= distdir %>/jquery.js'
       }
     },
@@ -135,7 +135,7 @@ module.exports = function (grunt) {
         dest: '<%= distdir %>/bootstrap.js'
       },
       jquery: {
-        src:['vendor/jquery/jquery.js'],
+        src:['<%= concat.jquery.src %>'],
         dest: '<%= distdir %>/jquery.js'
       }
     },

@@ -61,21 +61,28 @@ app.all('/*', function(req, res, next) {
   next();
 });
 
+//
 // Routing around
-require('./app/routes/appFile')(app, config);
+//
+app.use(function(req, res, next) {
+  if ( req.user ) {
+    console.log('Current User:', req.user.firstName, req.user.lastName);
+  } else {
+    console.log('Unauthenticated');
+  }
+  next();
+});
+
+require('./app/routes/cors')(app, config);
 require('./app/routes/static')(app, config);
-require('./app/routes/security')(app, config);
+//require('./app/routes/security')(app, config);
 
 app.use('/api/tasks',            require('./app/routes/tasks'));
 app.use('/api/tasks',            require('./app/routes/task'));
 app.use('/api/users',            require('./app/routes/users'));
 app.use('/api/users/:user_id',   require('./app/routes/user'));
 
-// This route deals enables HTML5Mode by forwarding missing files to the index.html
-app.all('/*', function(req, res) {
-  // Just send the index.html for other files to support HTML5Mode
-  res.sendfile('index.html', { root: config.server.distFolder });
-});
+require('./app/routes/appFile')(app, config);
 
 // START THE SERVER
 // =============================================================================
@@ -99,9 +106,6 @@ https://github.com/strongloop/express/blob/master/examples/route-middleware/inde
 
 https://github.com/strongloop/express/blob/master/examples/auth/app.js
 
-http://passportjs.org/guide/
-
 http://www.sitepoint.com/local-authentication-using-passport-node-js/
-
 
 */
