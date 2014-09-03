@@ -8,7 +8,7 @@ angular.module('main', [
     'templates.app'
 ]);
 
-angular.module('main').controller('HeaderCtrl', ['$rootScope', '$scope', '$location', '$cookieStore', '$route', 'WhoAmI', function ($rootScope, $scope, $location, $cookieStore, $route, WhoAmI) {
+angular.module('main').controller('HeaderCtrl', ['$rootScope', '$scope', '$location', '$route', function ($rootScope, $scope, $location, $route) {
 
 
     $scope.navClass = function (page) {

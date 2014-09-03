@@ -1,18 +1,12 @@
+// app.js
 
 angular.module('app', [
-    'ngRoute',
-    'ngSanitize',
-    'ngCookies',
-    'angular-carousel',
-    'ui.bootstrap',
-    'templates.app',
-    //'templates.common'
-    'staticpages'
-	]);
- 
-
-angular.module('app', [
-  'ngRoute'
+  'ngRoute',
+  'ui.bootstrap',
+  'templates.app',
+  'templates.common',
+  'staticpages',
+  'main'
   //'projectsinfo',
   //'dashboard',
   //'projects',
@@ -22,8 +16,6 @@ angular.module('app', [
   //'services.httpRequestTracker',
   //'security',
   //'directives.crud',
-  //'templates.app',
-  //'templates.common'
   ]);
   
 /*
@@ -45,7 +37,7 @@ angular.module('app').constant('I18N.MESSAGES', {
 
 angular.module('app').config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
-  $routeProvider.otherwise({redirectTo:'/projectsinfo'});
+  $routeProvider.otherwise({redirectTo:'/home'});
 }]);
 
 angular.module('app').run(['security', function(security) {
@@ -97,13 +89,11 @@ angular.module('app').controller('HeaderCtrl', ['$scope', '$location', '$route',
 
 /////////////////////////////////////
 
-
+/*
 angular.module('app').config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
   
 	$routeProvider
-        .when('/home',                      {templateUrl: 'staticpages/home.tpl.html', controller: 'HomeCtrl', title: 'Home'})
-        .when('/about',                     {templateUrl: 'staticpages/about.tpl.html', controller: 'AboutCtrl', title: 'About'})
-        .when('/contacts',                  {templateUrl: 'staticpages/contacts.tpl.html', controller: 'ContactsCtrl', title: 'Contatti'})
+        .when('/home', {templateUrl: 'static/home.tpl.html', controller: 'HomeCtrl', title: 'Home'})
 
         .otherwise({redirectTo: '/home'});
 
@@ -111,8 +101,8 @@ angular.module('app').config(['$routeProvider','$locationProvider', function($ro
     $locationProvider.hashPrefix('');
 
  }]);
-
-
+*/
+/*
 angular.module('app').run(function($rootScope) {
 
     $rootScope.title = "Annunci Immobiliari";
@@ -123,7 +113,7 @@ angular.module('app').run(function($rootScope) {
 });
 
 
-/*
+
 $rootScope.$on("$routeChangeSuccess", function(current) {
 	var authRequired = $route.current && 
 			$route.current.$route && 

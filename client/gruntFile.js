@@ -93,16 +93,17 @@ module.exports = function (grunt) {
       },
       angular: {
         src:['vendor/angular/angular.js', 
-            'vendor/angular-route/angular-route.js', 
-            'vendor/angular-resource/angular-resource.js',
-            'vendor/angular-sanitize/angular-sanitize.js',
-            'vendor/angular-cookies/angular-cookies.js',
-            'vendor/angular-touch/angular-touch.js',
-            'vendor/angular-carousel/dist/angular-carousel.js',
+            //'vendor/angular-route/angular-route.js', 
+            //'vendor/angular-resource/angular-resource.js',
+            //'vendor/angular-sanitize/angular-sanitize.js',
+            //'vendor/angular-cookies/angular-cookies.js',
+            //'vendor/angular-touch/angular-touch.js',
+            //'vendor/angular-carousel/dist/angular-carousel.js',
+            //'vendor/underscore/underscore.js',
+            //'vendor/angular-google-maps/dist/angular-google-maps.js'
             'vendor/angular-bootstrap/ui-bootstrap.js',
-            'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
-            'vendor/underscore/underscore.js',
-            'vendor/angular-google-maps/dist/angular-google-maps.js'],
+            'vendor/angular-bootstrap/ui-bootstrap-tpls.js'
+            ],
         dest: '<%= distdir %>/angular.js'
       },
       //mongo: {
