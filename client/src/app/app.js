@@ -1,7 +1,7 @@
 // app.js
 
 angular.module('app', [
-  'ngRoute',
+  'ui.router',
   'ui.bootstrap',
   'templates.app',
   'templates.common',

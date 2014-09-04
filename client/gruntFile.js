@@ -94,6 +94,7 @@ module.exports = function (grunt) {
       angular: {
         src:['vendor/angular/angular.js', 
             //'vendor/angular-route/angular-route.js', 
+            'vendor/angular-ui-router/release/angular-ui-router.js', 
             //'vendor/angular-resource/angular-resource.js',
             //'vendor/angular-sanitize/angular-sanitize.js',
             //'vendor/angular-cookies/angular-cookies.js',
