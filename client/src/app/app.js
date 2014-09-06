@@ -16,7 +16,23 @@ angular.module('app', [
   //'services.httpRequestTracker',
   //'security',
   //'directives.crud',
-  ]);
+]);
+  
+angular.module('app').config(function($stateProvider) {
+  $stateProvider
+    .state('home', {
+      url: "",
+      templateUrl: "static/home.tpl.html"
+      //controller:
+    })
+//    .state('route2', {
+//      url: "/route2",
+//      views: {
+//        "viewA": { template: "route2.viewA" },
+//        "viewB": { template: "route2.viewB" }
+//      }
+//    })
+});
   
 /*
 //TODO: move those messages to a separate module
