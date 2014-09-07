@@ -2,13 +2,13 @@
 
 
 angular.module('main', [
-    'ngRoute',
-    'services',
-    'ui.bootstrap',
-    'templates.app'
+   // 'ngRoute',
+   // 'services',
+   // 'ui.bootstrap',
+   // 'templates.app'
 ]);
 
-angular.module('main').controller('HeaderCtrl', ['$rootScope', '$scope', '$location', '$route', function ($rootScope, $scope, $location, $route) {
+angular.module('main').controller('HeaderCtrl', ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
 
 
     $scope.navClass = function (page) {
@@ -18,7 +18,7 @@ angular.module('main').controller('HeaderCtrl', ['$rootScope', '$scope', '$locat
 
 }]);
 
-angular.module('main').controller('FooterCtrl', ['$scope', '$location', '$route', function ($scope, $location, $route) {
+angular.module('main').controller('FooterCtrl', ['$scope', '$location', function ($scope, $location) {
 
 }]);
 

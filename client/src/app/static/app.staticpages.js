@@ -1,6 +1,6 @@
 
 angular.module('staticpages', [
-    'ngRoute',
+  //  'ngRoute',
     'services',
     'ui.bootstrap',
     'templates.app'

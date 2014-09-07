@@ -1,11 +1,11 @@
 // app.js
 
 angular.module('app', [
-  'ui.router',
+ // 'ui.router',
   'ui.bootstrap',
   'templates.app',
-  'templates.common',
-  'staticpages',
+ // 'templates.common',
+  //'staticpages',
   'main'
   //'projectsinfo',
   //'dashboard',
@@ -17,7 +17,7 @@ angular.module('app', [
   //'security',
   //'directives.crud',
 ]);
-  
+  /*
 angular.module('app').config(function($stateProvider) {
   $stateProvider
     .state('home', {
@@ -33,7 +33,7 @@ angular.module('app').config(function($stateProvider) {
 //      }
 //    })
 });
-  
+  */
 /*
 //TODO: move those messages to a separate module
 angular.module('app').constant('I18N.MESSAGES', {
