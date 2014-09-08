@@ -1,38 +1,59 @@
-<div class="navbar" ng-controller="HeaderCtrl">
-    <div class="navbar-inner">
-        <a class="brand" ng-click="home()">Home</a>
-        <ul class="nav">
-            <li ng-class="{active:isNavbarActive('signUp')}"><a href="/signUp">SignUp</a></li>
-            <li ng-class="{active:isNavbarActive('signIn')}"><a href="/signIn">SignIn</a></li>
-        </ul>
+<div class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MeanThat!</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li ng-class="{active:isNavbarActive('home')}"><a href="#/home">Home</a></li>
+                <li ng-class="{active:isNavbarActive('about')}"><a href="#/about">About</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Etc</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Views</li>
+                        <li><a href="#">List1</a></li>
+                        <li><a href="#">List2</a></li>
+                    </ul>
+                </li>
 
-        <ul class="nav" ng-show="isAuthenticated()">
-            <li ng-class="{active:isNavbarActive('dashboard')}"><a href="/tasks">Dashboard</a></li>
-            <li ng-class="{active:isNavbarActive('tasks')}"><a href="/tasks">Tasks</a></li>
-            <li class="dropdown" ng-class="{active:isNavbarActive('admin'), open:isAdminOpen}" ng-show="isAdmin()">
-                <a id="adminmenu" role="button" class="dropdown-toggle" ng-click="isAdminOpen=!isAdminOpen">Admin<b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="adminmenu">
-                    <li><a tabindex="-1" href="/admin/users" ng-click="isAdminOpen=false">Manage Users</a></li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="nav pull-right" ng-show="hasPendingRequests()">
-            <li class="divider-vertical"></li>
-            <li><a href="#"><img src="/static/img/spinner.gif"></a></li>
-        </ul>
-        <login-toolbar></login-toolbar>
-    </div>
-    <!--
-    <div>
-        <ul class="breadcrumb">
-            <li ng-repeat="breadcrumb in breadcrumbs.getAll()">
-                <span class="divider">/</span>
-                <ng-switch on="$last">
-                    <span ng-switch-when="true">{{breadcrumb.name}}</span>
-                    <span ng-switch-default><a href="{{breadcrumb.path}}">{{breadcrumb.name}}</a></span>
-                </ng-switch>
-            </li>
-        </ul>
-    </div>
-    -->
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="hasPendingRequests()"><a href="#"><img src="/static/img/spinner.gif"></a></li>
+                <li ng-class="{active:isNavbarActive('home')}"><a href="#/home">Home</a></li>
+                <li class="dropdown" ng-show="isAuthenticated()">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Infos <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">profile...</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" ng-show="isAdmin()">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-class="{active:isNavbarActive('admin'), open:isAdminOpen}"><a href="#">Users</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <login-toolbar></login-toolbar>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</div>
+
+<div>
+    <ul class="breadcrumb">
+        <li ng-repeat="breadcrumb in breadcrumbs.getAll()">
+            <span class="divider">/</span>
+            <ng-switch on="$last">
+                <span ng-switch-when="true">{{breadcrumb.name}}</span>
+                <span ng-switch-default><a href="{{breadcrumb.path}}">{{breadcrumb.name}}</a></span>
+            </ng-switch>
+        </li>
+    </ul>
 </div>

@@ -1,30 +1,52 @@
 // app.js
 
 angular.module('app', [
- // 'ui.router',
+  'ui.router',
   'ui.bootstrap',
   'templates.app',
  // 'templates.common',
-  //'staticpages',
-  'main'
-  //'projectsinfo',
-  //'dashboard',
-  //'projects',
+  'app.staticpages',
+  'app.main',
   //'admin',
-  //'services.breadcrumbs',
+  'services.breadcrumbs'
   //'services.i18nNotifications',
   //'services.httpRequestTracker',
   //'security',
   //'directives.crud',
 ]);
-  /*
-angular.module('app').config(function($stateProvider) {
+
+// On Start application
+angular.module('app').run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) { //security
+
+    // Get the current user when the application starts
+    // (in case they are still logged in from a previous session)
+    //security.requestCurrentUser();
+
+    // Globals for user states
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+
+    //$rootScope.$on("$routeChangeSuccess", function(event, currentRoute, previousRoute) {
+    //    $rootScope.title = currentRoute.title;
+    //});
+}]);
+
+
+angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+
+    // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
+    $urlRouterProvider
+        //.when('/c?id', '/contacts/:id')
+        //.when('/user/:id', '/contacts/:id')
+        .when('/', '/home')
+        .otherwise('/home');
+/*
   $stateProvider
     .state('home', {
-      url: "",
+      url: "home",
       templateUrl: "static/home.tpl.html"
       //controller:
-    })
+    });*/
 //    .state('route2', {
 //      url: "/route2",
 //      views: {
@@ -32,8 +54,8 @@ angular.module('app').config(function($stateProvider) {
 //        "viewB": { template: "route2.viewB" }
 //      }
 //    })
-});
-  */
+}]);
+
 /*
 //TODO: move those messages to a separate module
 angular.module('app').constant('I18N.MESSAGES', {
@@ -56,11 +78,7 @@ angular.module('app').config(['$routeProvider', '$locationProvider', function ($
   $routeProvider.otherwise({redirectTo:'/home'});
 }]);
 
-angular.module('app').run(['security', function(security) {
-  // Get the current user when the application starts
-  // (in case they are still logged in from a previous session)
-  security.requestCurrentUser();
-}]);
+
 
 angular.module('app').controller('AppCtrl', ['$scope', 'i18nNotifications', 'localizedMessages', function($scope, i18nNotifications, localizedMessages) {
 
@@ -119,14 +137,7 @@ angular.module('app').config(['$routeProvider','$locationProvider', function($ro
  }]);
 */
 /*
-angular.module('app').run(function($rootScope) {
 
-    $rootScope.title = "Annunci Immobiliari";
-    $rootScope.$on("$routeChangeSuccess", function(event, currentRoute, previousRoute) {
-        $rootScope.title = currentRoute.title;
-    });
-
-});
 
 
 

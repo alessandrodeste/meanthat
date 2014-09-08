@@ -192,7 +192,7 @@ module.exports = function (grunt) {
       files:['gruntFile.js', '<%= src.js %>', '<%= src.jsTpl %>', '<%= src.specs %>', '<%= src.scenarios %>'],
       options:{
         curly:true,
-        debug: false, // <--- set to false in production
+        debug: true, // <--- set to false in production
         eqeqeq:true,
         immed:true,
         latedef:true,

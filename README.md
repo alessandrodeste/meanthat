@@ -24,10 +24,8 @@ This is a prototype of mean stack project. *For now, just an experiment.*
 ## TODO
 
 - [ ] client
-    - [ ] base angularjs application
-    - [ ] index.html
-    - [ ] web service test
-    - [ ] first grunt setup
+    - [ ] services (first tests)
+    - [ ] notifications
 - [ ] server
     - [ ] security local
     - [ ] security oauth2 google service (passport)
