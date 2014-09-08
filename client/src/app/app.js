@@ -4,14 +4,14 @@ angular.module('app', [
   'ui.router',
   'ui.bootstrap',
   'templates.app',
- // 'templates.common',
+  'templates.common',
+  'security',
   'app.staticpages',
   'app.main',
   //'admin',
-  'services.breadcrumbs'
+  'services.breadcrumbs',
   //'services.i18nNotifications',
-  //'services.httpRequestTracker',
-  //'security',
+  'services.httpRequestTracker'
   //'directives.crud',
 ]);
 
@@ -23,16 +23,14 @@ angular.module('app').run(['$rootScope', '$state', '$stateParams', function($roo
     //security.requestCurrentUser();
 
     // Globals for user states
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
-
-    //$rootScope.$on("$routeChangeSuccess", function(event, currentRoute, previousRoute) {
-    //    $rootScope.title = currentRoute.title;
-    //});
+    //$rootScope.$state = $state;
+    //$rootScope.$stateParams = $stateParams;
 }]);
 
 
-angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+angular.module('app').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
+
+    $locationProvider.html5Mode(true).hashPrefix('!');
 
     // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
     $urlRouterProvider
@@ -56,7 +54,7 @@ angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($
 //    })
 }]);
 
-/*
+
 //TODO: move those messages to a separate module
 angular.module('app').constant('I18N.MESSAGES', {
   'errors.route.changeError':'Route change error',
@@ -73,6 +71,8 @@ angular.module('app').constant('I18N.MESSAGES', {
   'login.error.serverError': "There was a problem with authenticating: {{exception}}."
 });
 
+
+/*
 angular.module('app').config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
   $routeProvider.otherwise({redirectTo:'/home'});

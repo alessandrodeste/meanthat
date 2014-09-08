@@ -24,7 +24,8 @@ This is a prototype of mean stack project. *For now, just an experiment.*
 ## TODO
 
 - [ ] client
-    - [ ] services (first tests)
+    - [ ] security
+    - [ ] services (first taste)
     - [ ] notifications
 - [ ] server
     - [ ] security local
@@ -40,9 +41,10 @@ This is a prototype of mean stack project. *For now, just an experiment.*
     1. server/config.js.ori to server/config.js
     2. client/???/config.js (TODO)
 2. start mongodb
-3. npm install (client & server)
-4. grunt (client)
-5. start server
+3. /server/npm install
+4. /client/npm install
+5. /client/grunt default
+6. /server/node server.js
 
 ## Thank you time
 
@@ -51,4 +53,4 @@ I thank:
 - [Auth Scotch-io](https://github.com/scotch-io/easy-node-authentication) project
 - [Devsmash](http://devsmash.com/blog/implementing-max-login-attempts-with-mongoose)
 - All nodejs/angularjs modules teams! :D
-
+- [Witold Szczerba](https://github.com/witoldsz/angular-http-auth)
