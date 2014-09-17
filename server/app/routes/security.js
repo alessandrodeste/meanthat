@@ -8,12 +8,12 @@ module.exports = function(app, config) {
     });
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        res.json({ message: 'TODO: Go to profile:' + req.user });
+        //res.json({ message: 'TODO: Go to profile:' + req.user });
     });
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
         req.logout();
-        res.redirect('/');
+        //res.redirect('/');
     });
     // =============================================================================
     // AUTHENTICATE (FIRST LOGIN) ==================================================

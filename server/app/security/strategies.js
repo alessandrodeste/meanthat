@@ -139,11 +139,13 @@ module.exports = function(passport, configAuth) {
         function(req, token, refreshToken, profile, done) {
             // asynchronous
             process.nextTick(function() {
+                console.log('GS1: ', req.user);
                 // check if the user is already logged in
                 if (!req.user) {
                     User.findOne({
                         'google.id': profile.id
                     }, function(err, user) {
+                        console.log('GS2: ', user);
                         if (err)
                             return done(err);
                         if (user) {
@@ -161,6 +163,7 @@ module.exports = function(passport, configAuth) {
                             return done(null, user);
                         }
                         else {
+                            console.log('GS3');
                             var newUser = new User();
                             newUser.google.id = profile.id;
                             newUser.google.token = token;
@@ -175,6 +178,7 @@ module.exports = function(passport, configAuth) {
                     });
                 }
                 else {
+                    console.log('GS4');
                     // user already exists and is logged in, we have to link accounts
                     var user = req.user; // pull the user out of the session
                     user.google.id = profile.id;
@@ -187,6 +191,7 @@ module.exports = function(passport, configAuth) {
                         return done(null, user);
                     });
                 }
+                console.log('GS5');
             });
         }));
 };
