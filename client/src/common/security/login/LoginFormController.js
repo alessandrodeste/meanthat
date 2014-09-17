@@ -2,7 +2,9 @@ angular.module('security.login.form', ['services.localizedMessages'])
 
 // The LoginFormController provides the behaviour behind a reusable form to allow users to authenticate.
 // This controller and its template (login/form.tpl.html) are used in a modal dialog box by the security service.
-.controller('LoginFormController', ['$scope', 'security', 'localizedMessages', function($scope, security, localizedMessages) {
+.controller('LoginFormController', ['$scope', 'security', 'localizedMessages', '$modalInstance', '$location', '$window', '$http', 
+        function($scope, security, localizedMessages, $modalInstance, $location, $window, $http) {
+          
   // The model for this form 
   $scope.user = {};
 
@@ -34,12 +36,35 @@ angular.module('security.login.form', ['services.localizedMessages'])
       $scope.authError = localizedMessages.get('login.error.serverError', { exception: x });
     });
   };
+  
+   var login = function(email, password) {
+        var request = $http.post('/login', {email: email, password: password});
+        return request.then(function(response) {
+            security.currentUser = response.data.user;
+            if ( security.isAuthenticated() ) {
+                closeLoginDialog(true);
+            }
+            return security.isAuthenticated();
+        });
+    };
+    
+    var closeLoginDialog = function(result)
+    {
+      $modalInstance.close(result);
+      // if result true: go user home else go generic home
+      //if (result)
+        //$location.path('/');
+    };
 
   $scope.clearForm = function() {
     $scope.user = {};
   };
 
-  $scope.cancelLogin = function() {
-    security.cancelLogin();
+  $scope.cancelLogin = function(res) {
+    closeLoginDialog(false);
+  };
+  
+  $scope.loginGoogle = function() {
+    $window.location.href = '/auth/google';
   };
 }]);

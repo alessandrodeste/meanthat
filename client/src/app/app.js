@@ -9,6 +9,7 @@ angular.module('app', [
   'app.staticpages',
   'app.main',
   //'admin',
+  'security.login',
   'services.breadcrumbs',
   //'services.i18nNotifications',
   'services.httpRequestTracker'
@@ -30,7 +31,7 @@ angular.module('app').run(['$rootScope', '$state', '$stateParams', function($roo
 
 angular.module('app').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
 
-    $locationProvider.html5Mode(true).hashPrefix('!');
+    $locationProvider.html5Mode(true); //.hashPrefix('!');
 
     // Use $urlRouterProvider to configure any redirects (when) and invalid urls (otherwise).
     $urlRouterProvider

@@ -73,9 +73,9 @@ app.use(function(req, res, next) {
   next();
 });
 
+require('./app/routes/security')(app, config);
 require('./app/routes/cors')(app, config);
 require('./app/routes/static')(app, config);
-//require('./app/routes/security')(app, config);
 
 app.use('/api/tasks',            require('./app/routes/tasks'));
 app.use('/api/tasks',            require('./app/routes/task'));

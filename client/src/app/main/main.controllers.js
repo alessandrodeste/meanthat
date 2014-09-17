@@ -15,6 +15,7 @@ angular.module('app.main').controller('HeaderCtrl', ['$rootScope', '$scope', '$l
 
     $scope.isAuthenticated = security.isAuthenticated;
     $scope.isAdmin = security.isAdmin;
+    $scope.showLogin = security.showLogin;
 
     $scope.breadcrumbs = breadcrumbs;
 

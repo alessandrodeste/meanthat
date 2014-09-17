@@ -2,12 +2,12 @@
 
 // good ideas: http://devsmash.com/blog/implementing-max-login-attempts-with-mongoose
 
-var mongoose    = require('mongoose');
-var Schema      = mongoose.Schema;
-var bcrypt			= require('bcryptjs');
-var SALT_WORK_FACTOR 		= 10;
+var mongoose            = require('mongoose');
+var Schema              = mongoose.Schema;
+var bcrypt			    = require('bcryptjs');
+var SALT_WORK_FACTOR 	= 10;
 var MAX_LOGIN_ATTEMPTS 	= 5;
-var LOCK_TIME 					= 2 * 60 * 60 * 1000;
+var LOCK_TIME 			= 2 * 60 * 60 * 1000;
 
 var UserSchema   = new Schema({
 	id: String,
@@ -20,35 +20,35 @@ var UserSchema   = new Schema({
 	local            : {
       email        : String,
       password     : String,
-  },
-  facebook         : {
+    },
+    facebook         : {
       id           : String,
       token        : String,
       email        : String,
       name         : String
-  },
-  twitter          : {
+    },
+    twitter          : {
       id           : String,
       token        : String,
       displayName  : String,
       username     : String
-  },
-  google           : {
+    },
+    google           : {
       id           : String,
       token        : String,
       email        : String,
       name         : String
-  },
+    },
 	
 	// Security
 	loginAttempts: { type: Number, required: true, default: 0 },
-  lockUntil: { type: Number },
+    lockUntil: { type: Number },
 	
 	// User attributes
 	role: Number, // 0: none, 1: disabled, 2: user, 5: admin, 10: su
 	favorite_tags: [String]
 }, {
-  collection: 'userInfo'
+    collection: 'users'
 });
 
 // FIXME: local.password

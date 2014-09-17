@@ -14,21 +14,7 @@ angular.module('security.service', [
         }
 
         // Login form dialog stuff
-        var loginDialog = null;
-        function openLoginDialog() {
-            if ( loginDialog ) {
-                throw new Error('Trying to open a dialog that is already open!');
-            }
-            loginDialog = $modal;
-            loginDialog.open('security/login/form.tpl.html', 'LoginFormController').then(onLoginDialogClose);
-        }
-        function closeLoginDialog(success) {
-            if (loginDialog) {
-                loginDialog.close(success);
-            }
-        }
         function onLoginDialogClose(success) {
-            loginDialog = null;
             if ( success ) {
                 queue.retryAll();
             } else {
@@ -36,6 +22,10 @@ angular.module('security.service', [
                 redirect();
             }
         }
+        function openLoginDialog() {
+            $modal.open({templateUrl: 'security/login/form.tpl.html', controller: 'LoginFormController'}).then(onLoginDialogClose);
+        }
+        
 
         // Register a handler for when an item is added to the retry queue
         queue.onItemAddedCallbacks.push(function(retryItem) {
@@ -67,12 +57,6 @@ angular.module('security.service', [
                     }
                     return service.isAuthenticated();
                 });
-            },
-
-            // Give up trying to login and clear the retry queue
-            cancelLogin: function() {
-                closeLoginDialog(false);
-                redirect();
             },
 
             // Logout the current user and redirect
