@@ -46,7 +46,9 @@ var UserSchema   = new Schema({
 	
 	// User attributes
 	role: Number, // 0: none, 1: disabled, 2: user, 5: admin, 10: su
-	favorite_tags: [String]
+	favorite_tags: [String],
+	firstName: String,
+	lastName: String
 }, {
     collection: 'users'
 });
@@ -166,6 +168,19 @@ UserSchema.statics.getAuthenticated = function(email, password, cb) {
             });
         });
     });
+};
+
+UserSchema.statics.filterOutputUser = function(user) {
+  if ( user ) {
+    return {
+      user : {
+        id: user._id.$oid,
+        email: user.google.email
+      }
+    };
+  } else {
+    return { user: null };
+  }
 };
 
 module.exports = mongoose.model('User', UserSchema);

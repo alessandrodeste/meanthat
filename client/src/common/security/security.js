@@ -23,7 +23,8 @@ angular.module('security.service', [
             }
         }
         function openLoginDialog() {
-            $modal.open({templateUrl: 'security/login/form.tpl.html', controller: 'LoginFormController'}).then(onLoginDialogClose);
+            var modalInstance = $modal.open({templateUrl: 'security/login/form.tpl.html', controller: 'LoginFormController'});
+            modalInstance.result.then(onLoginDialogClose);
         }
         
 

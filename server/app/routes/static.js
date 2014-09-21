@@ -8,6 +8,7 @@ module.exports =function(app, config) {
     var oneDay = 86400000;
     
     // First looks for a static file: index.html, css, images, etc.
+    // Security: Free4All
     app.use(config.server.staticUrl, compression());
     app.use(config.server.staticUrl, express.static(config.server.distFolder), { maxAge: oneDay });
     app.use(config.server.staticUrl, function(req, res, next) {

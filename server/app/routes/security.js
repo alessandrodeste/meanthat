@@ -3,13 +3,13 @@ var passport = require('passport');
 module.exports = function(app, config) {
     // normal routes ===============================================================
     // show the home page (will also have our login links)
-    app.get('/', function(req, res) {
-        res.json({ message: 'TODO: Go to home' });
-    });
+    //app.get('/', function(req, res) {
+    //    res.json({ message: 'TODO: Go to home' });
+    //});
     // PROFILE SECTION =========================
-    app.get('/profile', isLoggedIn, function(req, res) {
-        //res.json({ message: 'TODO: Go to profile:' + req.user });
-    });
+    //app.get('/profile', isLoggedIn, function(req, res) {
+    //    //res.json({ message: 'TODO: Go to profile:' + req.user });
+    //});
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
         req.logout();
@@ -48,12 +48,23 @@ module.exports = function(app, config) {
     app.get('/auth/google', passport.authenticate('google', {
         scope: ['profile', 'email']
     }));
-    // the callback after google has authenticated the user
-    app.get('/auth/google/callback',
-        passport.authenticate('google', {
-            successRedirect: '/profile',
-            failureRedirect: '/'
-        }));
+    
+    app.post('/auth/google/callback', passport.authenticate('google', {
+        successRedirect: '/profile', // redirect to the secure profile section
+        failureRedirect: '/', // redirect back to the signup page if there is an error
+    }));
+    /*
+    app.get('/auth/google/callback', function(req, res, next) {
+      passport.authenticate('google', function(err, user, info) {
+        if (err) {
+          return next(err); // will generate a 500 error
+        }
+        if (!user) {
+          return res.redirect('/');
+        }
+        return res./*redirect('/');
+      })(req, res, next);
+    });*/
     // =============================================================================
     // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
     // =============================================================================

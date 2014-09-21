@@ -54,3 +54,4 @@ I thank:
 - [Devsmash](http://devsmash.com/blog/implementing-max-login-attempts-with-mongoose)
 - All nodejs/angularjs modules teams! :D
 - [Witold Szczerba](https://github.com/witoldsz/angular-http-auth)
+- [Passport help!](http://toon.io/understanding-passportjs-authentication-flow/)

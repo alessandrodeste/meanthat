@@ -1,15 +1,14 @@
-var express = require('express'); 		// call express
-var router  = express.Router(); 		// get an instance of the express Router
-
-// Call models
+var express  = require('express'); 		// call express
+var router   = express.Router(); 		// get an instance of the express Router
 var Task     = require('../models/task.js');
+var security = require('../security/security');
 
 // on routes that end in /tasks
 // ----------------------------------------------------
 router.route('/')
 
 	// create a task (accessed at POST http://localhost:8080/api/tasks)
-	.post(function(req, res) {
+	.post(security.authenticationRequired , function(req, res) {
 		
 		var task = new Task();
 		task.descr = req.body.descr;  
@@ -20,11 +19,9 @@ router.route('/')
 			if (err) { res.send(err); }
 			res.json({ message: 'task created!' });
 		});
-	
-		
 	})
 	
-	.get(function(req, res) {
+	.get(security.authenticationRequired, function(req, res) {
 		Task.find(function(err, task) {
 			if (err) { res.send(err); }
 			res.json(task);
