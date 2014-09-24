@@ -13,12 +13,9 @@ module.exports = function(passport, configAuth) {
     // passport session setup ==================================================
     // =========================================================================
     // required for persistent login sessions
-    // passport needs ability to serialize and unserialize users out of session
-    // used to serialize the user for the session
-    
     passport.serializeUser(function(user, done) {
-        console.log('serializeUser: ' + user._id);
-        done(null, user._id);
+        console.log('serializeUser: ' + user.id);
+        done(null, user.id);
         //done(null, user.id);
     });
     // used to deserialize the user
@@ -28,10 +25,7 @@ module.exports = function(passport, configAuth) {
             console.log('deserializeUser found:', user);
             if(!err) done(null, user);
             else done(err, null)  
-        })
-        //User.findById(id, function(err, user) {
-        //    done(err, user);
-        //});
+        });
     });
     // =========================================================================
     // LOCAL LOGIN =============================================================
@@ -148,6 +142,7 @@ module.exports = function(passport, configAuth) {
         function(req, token, refreshToken, profile, done) {
             // asynchronous
             process.nextTick(function() {
+                
                 // check if the user is already logged in
                 if (!req.user) {
                     User.findOne({

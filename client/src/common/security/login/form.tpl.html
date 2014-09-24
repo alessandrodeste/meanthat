@@ -18,6 +18,31 @@
             <input name="pass" type="password" ng-model="user.password" required>
         </div>
         <div class="modal-footer">
+        
+            <!-- Define controller for body. In this example we use only one controller for the scope of entire body. -->
+            <!-- Place a span that is going to act as a container for button rendering through script code. -->
+        <span id="googleSignIn">
+            <span id="signInButton">
+            </span>
+        </span>
+ 
+        <!-- Don't forget to place the script that does the asynchronous loading of Google+ JavaScript API.
+             Because it is loaded asynchronously, it might take some time to load. 
+             Place some loading notification, so user won't get confused. 
+             You can use ng-show and ng-hide to show or hide your notification and accomplish best user experience. -->
+        <script>// <![CDATA[
+            (function() {
+                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                po.src = 'https://apis.google.com/js/client:plusone.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+            })();
+ 
+// ]]></script>
+
+<!-- Second script needed for accessing Google API (gapi.*) . It's usage will be described in controller. -->
+<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+
+
             <button class="btn btn-danger" ng-click="loginGoogle()"><span class="fa fa-google-plus"></span> Google </button>
 
             <button class="btn btn-primary login" ng-click="login()" ng-disabled='form.$invalid'>Sign in</button>

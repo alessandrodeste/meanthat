@@ -20,5 +20,56 @@ angular.module('security.interceptor', ['security.retryQueue'])
 // We have to add the interceptor to the queue as a string because the interceptor depends upon service instances that are not available in the config block.
 .config(['$httpProvider', function($httpProvider) {
   // FIXME
-  //$httpProvider.responseInterceptors.push('securityInterceptor');
+  //$httpProvider.responseInterceptors.push(securityInterceptor);
+  /*
+  $httpProvider.responseInterceptors.push(
+    function($q, $location) { 
+      return function(promise) { 
+        return promise.then( 
+          // Success: just return the response 
+          function(response){ return response; }, 
+          // Error: check the error status to get only the 401 
+          function(response) { 
+            if (response.status === 401) {
+              $location.url('/login'); 
+            }
+            return $q.reject(response); 
+            
+          } ); 
+      };
+    }); 
+  */
 }]);
+
+
+
+
+/*
+// Token in header...
+// on login success: $window.sessionStorage.setItem('token', data.token);
+// on login failed:  $window.sessionStorage.removeItem('token');
+app.factory('AuthInterceptor', function ($window, $q) {
+    return {
+        request: function(config) {
+            config.headers = config.headers || {};
+            if ($window.sessionStorage.getItem('token')) {
+                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.getItem('token');
+            }
+            return config || $q.when(config);
+        },
+        response: function(response) {
+            if (response.status === 401) {
+                // TODO: Redirect user to login page.
+            }
+            return response || $q.when(response);
+        }
+    };
+});
+
+// Register the previously created AuthInterceptor.
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('AuthInterceptor');
+});
+
+
+*/

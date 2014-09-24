@@ -39,19 +39,30 @@ This is a prototype of mean stack project. *For now, just an experiment.*
 
 1. configurations
     1. server/config.js.ori to server/config.js
-    2. client/???/config.js (TODO)
+    2. client/app/src/config.js.ori to client/app/src/config.js
 2. start mongodb
 3. /server/npm install
 4. /client/npm install
 5. /client/grunt default
-6. /server/node server.js
+6. /server/node initDb.js
+7. /server/node server.js
 
 ## Thank you time
 
 I thank: 
 - [Angular-App](https://github.com/angular-app/angular-app) project
-- [Auth Scotch-io](https://github.com/scotch-io/easy-node-authentication) project
 - [Devsmash](http://devsmash.com/blog/implementing-max-login-attempts-with-mongoose)
+- [Passport authentication flow overview](http://toon.io/understanding-passportjs-authentication-flow/)
+
+- [Token!](https://auth0.com/blog/2014/01/07/angularjs-authentication-with-cookies-vs-token/)
+
+- [SPA auth](http://www.webdeveasy.com/single-page-application-authentication/)
+- [AngularJS: Google+ Sign In Integration](https://blog.codecentric.de/en/2014/06/angularjs-google-sign-integration/)
 - All nodejs/angularjs modules teams! :D
+
+
+http://madhatted.com/2014/6/17/authentication-for-single-page-apps
+https://github.com/enginous/angular-oauth
+https://github.com/sahat/satellizer
+
 - [Witold Szczerba](https://github.com/witoldsz/angular-http-auth)
-- [Passport help!](http://toon.io/understanding-passportjs-authentication-flow/)

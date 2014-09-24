@@ -2,31 +2,28 @@
 
 angular.module('services', ['ngResource'])
 
-    .factory('VariablesService', function() {
-        return {
-            debugService : '?referer=' + (window.location.hostname === "localhost" ? "pippo" : window.location.hostname)
-        };
-    })
-
+    
 // Define the API
 
-    .factory('Categorie', function($resource, VariablesService) {
-        return $resource('http://wsro.xyz.it/resources/categorie' + VariablesService.debugService, {query:'@query'},
+    .factory('Tasks', ['$resource', function($resource) {
+        var Tasks = $resource('/api/tasks', {},
             {
-                getAll: {method:'GET', isArray: false}
+                all: {method:'GET', isArray: true}
             }
         );
-    })
-
-    .factory('CMS', function($resource, VariablesService) {
-        return $resource('http://wsro.xyz.it/cms/:page' + VariablesService.debugService, {page: '@page'},
+        return Tasks;
+    }])
+/*
+    .factory('CMS', function($resource) {
+        return $resource('http://wsro.xyz.it/cms/:page', {page: '@page'},
             {
                 home: {method:'GET', isArray: false, params:{page:"home"}},
                 about: {method:'GET', isArray: false, params:{page:"about"}},
                 contacts: {method:'GET', isArray: false, params:{page:"contacts"}}
             }
         );
-    });
+    })*/
+    ;
 
 /*
 // A RESTful factory for retrieving contacts from 'contacts.json'

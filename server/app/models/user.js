@@ -10,7 +10,7 @@ var MAX_LOGIN_ATTEMPTS 	= 5;
 var LOCK_TIME 			= 2 * 60 * 60 * 1000;
 
 var UserSchema   = new Schema({
-	id: String,
+	//_id: Number,
 	username: String,
 	
 	// Identifiers

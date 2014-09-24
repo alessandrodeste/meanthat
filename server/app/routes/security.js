@@ -1,20 +1,17 @@
-var passport = require('passport');
+var passport     = require('passport');
+var jwt          = require('jsonwebtoken');
 
 module.exports = function(app, config) {
-    // normal routes ===============================================================
-    // show the home page (will also have our login links)
-    //app.get('/', function(req, res) {
-    //    res.json({ message: 'TODO: Go to home' });
-    //});
-    // PROFILE SECTION =========================
-    //app.get('/profile', isLoggedIn, function(req, res) {
-    //    //res.json({ message: 'TODO: Go to profile:' + req.user });
-    //});
-    // LOGOUT ==============================
+
     app.get('/logout', function(req, res) {
         req.logout();
-        //res.redirect('/');
+        res.send(200);
     });
+    
+    app.get('/loggedin', function(req, res) { 
+        res.send(req.isAuthenticated() ? req.user : '0'); 
+    });
+    
     // =============================================================================
     // AUTHENTICATE (FIRST LOGIN) ==================================================
     // =============================================================================
@@ -49,22 +46,42 @@ module.exports = function(app, config) {
         scope: ['profile', 'email']
     }));
     
-    app.post('/auth/google/callback', passport.authenticate('google', {
-        successRedirect: '/profile', // redirect to the secure profile section
-        failureRedirect: '/', // redirect back to the signup page if there is an error
-    }));
+    app.get('/auth/google/callback',
+       function(req, res, next) {
+          passport.authenticate('google', {session: false}, 
+            function(err, user, info) {
+                if (err) { return next(err); }
+                if (!user) { return res.send(401); }
+                
+                // We are sending the profile inside the token
+                var token = jwt.sign(user, config.server.tokenSecret, { expiresInMinutes: 60*5 });
+                res.json({ token: token });
+            })(req, res, next);
+       });
+
     /*
-    app.get('/auth/google/callback', function(req, res, next) {
-      passport.authenticate('google', function(err, user, info) {
-        if (err) {
-          return next(err); // will generate a 500 error
-        }
-        if (!user) {
-          return res.redirect('/');
-        }
-        return res./*redirect('/');
-      })(req, res, next);
+    app.get('/auth/google/callback', 
+        function(req, res, next) {
+            passport.authenticate('google', function(err, user, info) {
+                if (err) {
+                  return next(err); // will generate a 500 error
+                }
+                if (!user) {
+                  return res.redirect('/');
+                }
+                return res.redirect('/');
+            });//(req, res, next);
     });*/
+   
+   /*
+   app.get('/auth/google/callback', 
+      passport.authenticate('google', { failureRedirect: '/login' }),
+      function(req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/');
+      });
+  */
+    
     // =============================================================================
     // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
     // =============================================================================
