@@ -11,7 +11,7 @@ angular.module('tasks.controller').controller('TasksListCtl', ['$scope', '$state
     function (  $scope,   $state,   Tasks) {
         
         $scope.loadTasks = function() {
-            var tasks = Tasks.all(function(jobs) {
+            var tasks = Tasks.all(function(tasks) {
                 $scope.tasks = tasks.items;
             });
         };

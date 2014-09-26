@@ -44,11 +44,11 @@ require('./app/routes/security')(app, config);
 require('./app/routes/cors')(app, config);
 require('./app/routes/static')(app, config);
 
-app.use('/api/test',            require('./app/routes/test'));
-app.use('/api/secured/tasks',            require('./app/routes/tasks'));
-app.use('/api/secured/tasks',            require('./app/routes/task'));
-app.use('/api/secured/users',            require('./app/routes/users'));
-app.use('/api/secured/users/:user_id',   require('./app/routes/user'));
+app.use('/api/test',                    require('./app/routes/test'));
+app.use('/api/secured/tasks',           require('./app/routes/tasks'));
+app.use('/api/secured/tasks',           require('./app/routes/task'));
+app.use('/api/secured/users',           require('./app/routes/users'));
+app.use('/api/secured/users/:user_id',  require('./app/routes/user'));
 
 require('./app/routes/appFile')(app, config);
 

@@ -7,6 +7,7 @@ angular.module('security.service', [
 
     .factory('security', ['$http', '$q', '$location', 'securityRetryQueue', '$modal', function($http, $q, $location, queue, $modal) {
 
+        // TOREM?
         // Redirect to the given url (defaults to '/')
         function redirect(url) {
             url = url || '/';
@@ -19,15 +20,16 @@ angular.module('security.service', [
                 queue.retryAll();
             } else {
                 queue.cancelAll();
-                redirect();
             }
         }
         function openLoginDialog() {
-            var modalInstance = $modal.open({templateUrl: 'security/login/form.tpl.html', controller: 'LoginFormController'});
+            var modalInstance = $modal.open({
+                templateUrl: 'security/login/form.tpl.html', 
+                controller: 'LoginFormController'});
             modalInstance.result.then(onLoginDialogClose);
         }
         
-
+        // FIXME
         // Register a handler for when an item is added to the retry queue
         queue.onItemAddedCallbacks.push(function(retryItem) {
             if ( queue.hasMore() ) {
@@ -37,11 +39,6 @@ angular.module('security.service', [
 
         // The public API of the service
         var service = {
-
-            // Get the first reason for needing a login
-            getLoginReason: function() {
-                return queue.retryReason();
-            },
 
             // Show the modal login dialog
             showLogin: function() {
@@ -64,7 +61,7 @@ angular.module('security.service', [
             logout: function(redirectTo) {
                 $http.post('/logout').then(function() {
                     service.currentUser = null;
-                    redirect(redirectTo);
+                    // FIXME: redirect(redirectTo);
                 });
             },
 

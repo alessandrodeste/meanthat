@@ -2,17 +2,34 @@
 
 angular.module('services', ['ngResource'])
 
-    
-// Define the API
+    // TODO: move to restangular ?
+    // Define the API
 
     .factory('Tasks', ['$resource', function($resource) {
-        var Tasks = $resource('/api/tasks', {},
+        var Tasks = $resource('/api/secured/tasks', {},
             {
                 all: {method:'GET', isArray: true}
             }
         );
         return Tasks;
     }])
+    
+    .factory('Security', ['$resource', function($resource) {
+        var Security = {
+            local: $resource('/api/:action', {},
+            {
+                all: {method:'GET', isArray: false, params: {action: 'login'}}
+            }),
+            
+            google: $resource('/auth/google/:action', {},
+            {
+                callback: {method:'POST', isArray: false, params: {action: 'callback'}}
+            })
+            
+        };
+        return Security;
+    }])
+    
 /*
     .factory('CMS', function($resource) {
         return $resource('http://wsro.xyz.it/cms/:page', {page: '@page'},

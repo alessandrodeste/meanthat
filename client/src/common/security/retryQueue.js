@@ -50,9 +50,6 @@ angular.module('security.retryQueue', [])
       service.push(retryItem);
       return deferred.promise;
     },
-    retryReason: function() {
-      return service.hasMore() && retryQueue[0].reason;
-    },
     cancelAll: function() {
       while(service.hasMore()) {
         retryQueue.shift().cancel();

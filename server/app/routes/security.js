@@ -1,5 +1,6 @@
-var passport     = require('passport');
-var jwt          = require('jsonwebtoken');
+var passport    = require('passport');
+var jwt         = require('jsonwebtoken');
+var google      = require('googleapis');
 
 module.exports = function(app, config) {
 
@@ -39,13 +40,32 @@ module.exports = function(app, config) {
         failureFlash: true // allow flash messages
     }));
     
+    // Check token recieved from client
+    app.post('/auth/google/callback',
+        function(req, res, next) {
+         
+       var google = require('googleapis');
+        var OAuth2 = google.auth.OAuth2;
+        /*
+        var oauth2Client = new OAuth2(config.external_api.googleAuth.clientID, 
+                config.external_api.googleAuth.clientSecret, 
+                config.external_api.googleAuth.callbackURL);
+                */
+        OAuth2().tokeninfo({'access_token': req.body.access_token}, function(result) {
+            console.log("verificato!", result);
+        });
+    });
+
+    
     
     // google ---------------------------------
     // send to google to do the authentication
-    app.get('/auth/google', passport.authenticate('google', {
-        scope: ['profile', 'email']
-    }));
+    //app.get('/auth/google', passport.authenticate('google', {
+    //    scope: ['profile', 'email']
+    //}));
     
+    
+       /*
     app.get('/auth/google/callback',
        function(req, res, next) {
           passport.authenticate('google', {session: false}, 
@@ -55,11 +75,15 @@ module.exports = function(app, config) {
                 
                 // We are sending the profile inside the token
                 var token = jwt.sign(user, config.server.tokenSecret, { expiresInMinutes: 60*5 });
+                
+                console.log("callback log");
+                console.log(token);
+                
                 res.json({ token: token });
             })(req, res, next);
        });
 
-    /*
+ 
     app.get('/auth/google/callback', 
         function(req, res, next) {
             passport.authenticate('google', function(err, user, info) {
@@ -97,7 +121,7 @@ module.exports = function(app, config) {
         failureFlash: true // allow flash messages
     }));
     
-    
+    /*
     // google ---------------------------------
     // send to google to do the authentication
     app.get('/connect/google', passport.authorize('google', {
@@ -109,7 +133,7 @@ module.exports = function(app, config) {
             successRedirect: '/profile',
             failureRedirect: '/'
         }));
-        
+        */
     // =============================================================================
     // UNLINK ACCOUNTS =============================================================
     // =============================================================================
@@ -125,7 +149,7 @@ module.exports = function(app, config) {
             res.redirect('/profile');
         });
     });
-    
+    /*
     // google ---------------------------------
     app.get('/unlink/google', function(req, res) {
         var user = req.user;
@@ -133,11 +157,13 @@ module.exports = function(app, config) {
         user.save(function(err) {
             res.redirect('/profile');
         });
-    });
+    });*/
 };
+/*
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
     res.redirect('/');
 }
+*/

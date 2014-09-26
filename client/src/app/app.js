@@ -13,13 +13,14 @@ angular.module('app', [
   //'admin',
   'security.login',
   'services.breadcrumbs',
+  'security.social.googleHelper',
   //'services.i18nNotifications',
   'services.httpRequestTracker'
   //'directives.crud',
 ]);
 
 // On Start application
-angular.module('app').run(['$rootScope', '$state', '$stateParams', function($rootScope, $state, $stateParams) { //security
+angular.module('app').run(['$rootScope', '$state', '$stateParams', 'googleHelper', function($rootScope, $state, $stateParams, googleHelper) { //security
 
     // Get the current user when the application starts
     // (in case they are still logged in from a previous session)
@@ -28,6 +29,9 @@ angular.module('app').run(['$rootScope', '$state', '$stateParams', function($roo
     // Globals for user states
     //$rootScope.$state = $state;
     //$rootScope.$stateParams = $stateParams;
+    
+    // Load library to social login with Google
+    googleHelper.init();
 }]);
 
 

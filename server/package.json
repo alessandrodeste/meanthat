@@ -15,6 +15,7 @@
     "express-jwt": "^0.3.2",
     "express-namespace": "~0.1.1",
     "express-session": "^1.7.6",
+    "googleapis": "^1.0.14",
     "jsonwebtoken": "^1.1.2",
     "mongoose": "^3.8.16",
     "morgan": "^1.2.3",
