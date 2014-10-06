@@ -40,9 +40,9 @@ mongoose.connect('mongodb://' + config.mongo.dbUrl + '/' + config.security.dbNam
 app.use('/api/secured', expressJwt({secret: config.server.tokenSecret}));
 
 require('./app/security/strategies')(passport, config); // init passport strategies
-require('./app/routes/security')(app, config);
-require('./app/routes/cors')(app, config);
-require('./app/routes/static')(app, config);
+require('./app/routes/security')(app);
+require('./app/routes/cors')(app);
+require('./app/routes/static')(app);
 
 app.use('/api/test',                    require('./app/routes/test'));
 app.use('/api/secured/tasks',           require('./app/routes/tasks'));
@@ -50,7 +50,7 @@ app.use('/api/secured/tasks',           require('./app/routes/task'));
 app.use('/api/secured/users',           require('./app/routes/users'));
 app.use('/api/secured/users/:user_id',  require('./app/routes/user'));
 
-require('./app/routes/appFile')(app, config);
+require('./app/routes/appFile')(app);
 
 // START THE SERVER
 // =============================================================================

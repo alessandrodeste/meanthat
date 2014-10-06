@@ -1,7 +1,7 @@
 // cors.js
 
 
-module.exports = function(app, config) {
+module.exports = function(app) {
      
     // cross domain xhr
     app.all('*', function(req, res, next) {

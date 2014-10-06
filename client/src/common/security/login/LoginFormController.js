@@ -66,7 +66,7 @@ angular.module('security.login.form', [
     // When callback is received, we need to process authentication.
     $scope.signInCallback = function(authResult) {
         $scope.$apply(function() {
-            googleHelper.processAuth(authResult, $scope.userInfoCallback);
+            googleHelper.signInCallback(authResult, $scope.userInfoCallback);
             if (googleHelper.signedIn)
             {
                 closeLoginDialog();

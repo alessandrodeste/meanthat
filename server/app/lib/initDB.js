@@ -15,11 +15,13 @@ var initDB = {
         
         mongoose.connect('mongodb://' + config.mongo.dbUrl + '/' + config.security.dbName); // connect to our database
         initDB.User = require('../models/user');
+        initDB.Task = require('../models/task');
         
         initDB.adminUser = new initDB.User({
             //initDB.adminUser.id = 'admin';
         	username: 'admin',
         	role: 10,
+        	email: 'admin@abc.com',
         	local: {email: 'admin@abc.com', password: 'admin'}
         });
     },
@@ -38,6 +40,33 @@ var initDB = {
             }
         });
         
+    },
+    
+    addTasks: function(done) {
+        var task; 
+        task = new initDB.Task({
+        	user: 'admin',
+            title: 'Task 1 Test',
+            descr: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+            tags: ['test', 'first'],
+            fg_close: false,
+            fg_archived: false
+        });
+        task.save();
+        console.log('Created new Task');
+           
+        task = new initDB.Task({
+        	user: 'admin',
+            title: 'Task 2 Test',
+            descr: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+            tags: ['test', 'first'],
+            fg_close: false,
+            fg_archived: false
+        });
+        task.save();
+        console.log('Created new Task');
     }
 };
 

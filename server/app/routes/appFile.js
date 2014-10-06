@@ -1,7 +1,7 @@
 // appFile.js
+var config 	     = require('../../config.js');
 
-
-module.exports = function(app, config) {
+module.exports = function(app) {
     // This route deals enables HTML5Mode by forwarding missing files to the index.html
     // Security: Free4All
     app.all('/*', function(req, res) {

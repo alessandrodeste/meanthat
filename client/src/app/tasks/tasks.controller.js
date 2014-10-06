@@ -12,7 +12,7 @@ angular.module('tasks.controller').controller('TasksListCtl', ['$scope', '$state
         
         $scope.loadTasks = function() {
             var tasks = Tasks.all(function(tasks) {
-                $scope.tasks = tasks.items;
+                $scope.tasks = tasks;
             });
         };
         

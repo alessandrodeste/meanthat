@@ -3,3 +3,4 @@ data/*
 .c9/*
 mongod
 **/*.old
+note

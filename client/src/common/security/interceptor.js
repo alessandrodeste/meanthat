@@ -1,5 +1,6 @@
 angular.module('security.interceptor', ['security.retryQueue'])
 
+/*
 // This http interceptor listens for authentication failures
 .factory('securityInterceptor', ['$injector', 'securityRetryQueue', function($injector, queue) {
   return function(promise) {
@@ -16,10 +17,35 @@ angular.module('security.interceptor', ['security.retryQueue'])
     });
   };
 }])
+*/
 
-// We have to add the interceptor to the queue as a string because the interceptor depends upon service instances that are not available in the config block.
-.config(['$httpProvider', function($httpProvider) {
-  // FIXME
+// Token in header...
+// on login success: $window.sessionStorage.setItem('token', data.token);
+// on login failed:  $window.sessionStorage.removeItem('token');
+.factory('authInterceptor', function ($window, $q) {
+    return {
+        request: function(config) {
+            config.headers = config.headers || {};
+            if ($window.sessionStorage.getItem('token')) {
+                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.getItem('token');
+            }
+            return config || $q.when(config);
+        },
+        response: function(response) {
+            if (response.status === 401) {
+                // TODO: Redirect user to login page.
+            }
+            return response || $q.when(response);
+        }
+    };
+})
+
+// Register the previously created AuthInterceptor.
+.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
+    
+    
+    // FIXME
   //$httpProvider.responseInterceptors.push(securityInterceptor);
   /*
   $httpProvider.responseInterceptors.push(
@@ -39,37 +65,7 @@ angular.module('security.interceptor', ['security.retryQueue'])
       };
     }); 
   */
-}]);
-
-
-
-
-/*
-// Token in header...
-// on login success: $window.sessionStorage.setItem('token', data.token);
-// on login failed:  $window.sessionStorage.removeItem('token');
-app.factory('AuthInterceptor', function ($window, $q) {
-    return {
-        request: function(config) {
-            config.headers = config.headers || {};
-            if ($window.sessionStorage.getItem('token')) {
-                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.getItem('token');
-            }
-            return config || $q.when(config);
-        },
-        response: function(response) {
-            if (response.status === 401) {
-                // TODO: Redirect user to login page.
-            }
-            return response || $q.when(response);
-        }
-    };
+  
+  
 });
 
-// Register the previously created AuthInterceptor.
-app.config(function ($httpProvider) {
-    $httpProvider.interceptors.push('AuthInterceptor');
-});
-
-
-*/

@@ -1,14 +1,25 @@
+// routes/security.js
+
 var passport    = require('passport');
 var jwt         = require('jsonwebtoken');
-var google      = require('googleapis');
+var request     = require('request');
+var User        = require('../models/user');
+var security    = require('../security/security');
+var config 	    = require('../../config.js');
 
-module.exports = function(app, config) {
+module.exports = function(app) {
 
+    //-------------------------------------------------------------------
+    // Execute logout // FIXME
+    //-------------------------------------------------------------------
     app.get('/logout', function(req, res) {
         req.logout();
         res.send(200);
     });
     
+    //-------------------------------------------------------------------
+    // Ping if is logged in // FIXME
+    //-------------------------------------------------------------------
     app.get('/loggedin', function(req, res) { 
         res.send(req.isAuthenticated() ? req.user : '0'); 
     });
@@ -16,44 +27,107 @@ module.exports = function(app, config) {
     // =============================================================================
     // AUTHENTICATE (FIRST LOGIN) ==================================================
     // =============================================================================
-    // locally --------------------------------
-    // LOGIN ===============================
-    // show the login form
-    app.get('/login', function(req, res) {
-        res.json({ message: 'TODO: Go to login:' + req.flash('loginMessage') });
-    });
-    // process the login form
+
+    //-------------------------------------------------------------------
+    // Execute login - POST // FIXME
+    //-------------------------------------------------------------------
     app.post('/login', passport.authenticate('local-login', {
         successRedirect: '/profile', // redirect to the secure profile section
         failureRedirect: '/login', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
     }));
-    // SIGNUP =================================
-    // show the signup form
-    app.get('/signup', function(req, res) {
-        res.json({ message: 'TODO: Go to signup:' + req.flash('loginMessage') });
-    });
-    // process the signup form
+    
+    //-------------------------------------------------------------------
+    // Execute signup - POST // FIXME
+    //-------------------------------------------------------------------
     app.post('/signup', passport.authenticate('local-signup', {
         successRedirect: '/profile', // redirect to the secure profile section
         failureRedirect: '/signup', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
     }));
     
+    //-------------------------------------------------------------------
     // Check token recieved from client
+    //-------------------------------------------------------------------
     app.post('/auth/google/callback',
         function(req, res, next) {
          
-       var google = require('googleapis');
-        var OAuth2 = google.auth.OAuth2;
-        /*
-        var oauth2Client = new OAuth2(config.external_api.googleAuth.clientID, 
-                config.external_api.googleAuth.clientSecret, 
-                config.external_api.googleAuth.callbackURL);
-                */
-        OAuth2().tokeninfo({'access_token': req.body.access_token}, function(result) {
-            console.log("verificato!", result);
-        });
+            var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
+            
+            /*
+            //var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
+            var params = {
+                client_id:      req.body.client_id,
+                client_secret:  config.external_api.googleAuth.clientSecret,
+                code:           req.body.access_token,
+                //redirect_uri:   config.external_api.googleAuth.callbackURL, 
+                grant_type:     'authorization_code'
+            };*/
+            
+            var accessTokenUrl = 'https://www.googleapis.com/oauth2/v1/tokeninfo';
+            var params = {
+                client_id:      req.body.client_id,
+                access_token:   req.body.access_token
+            };
+            
+            // Step 1. Exchange authorization code for access token.
+            request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
+            
+                //var accessToken = token.access_token;
+                var accessToken = req.body.access_token;
+                var headers = { Authorization: 'Bearer ' + accessToken };
+                
+                // Step 2. Retrieve profile information about the current user.
+                request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
+                
+                    // Step 3a. Link user accounts.
+                    if (req.headers.authorization) {
+                        User.findOne({ 'google.id': profile.sub }, function(err, existingUser) {
+                            if (existingUser) {
+                              return res.status(409).send({ message: 'There is already a Google account that belongs to you' });
+                            }
+                        
+                            var token = req.headers.authorization.split(' ')[1];
+                            var payload = jwt.decode(token, config.TOKEN_SECRET);
+                        
+                            User.findById(payload.sub, function(err, user) {
+                                if (!user) {
+                                  return res.status(400).send({ message: 'User not found' });
+                                }
+                                
+                                // Save google user
+                                user.google.id = profile.sub;
+                                user.username = user.displayName || profile.name;
+                                user.name = user.displayName || profile.name;
+                                user.email = profile.email;
+                                user.save(function(err) {
+                                    res.send({ token: security.createToken(user) });
+                                });
+                            });
+                        });
+                    } else {
+                        // Step 3b. Create a new user account or return an existing one.
+                        User.findOne(
+                            { 'google.id': profile.sub }, 
+                            function(err, existingUser) {
+                                if (existingUser) {
+                                    var security_token = security.createToken(existingUser);
+                                    return res.send({ token: security_token });
+                                }
+                            
+                                var user = new User();
+                                user.google.id = profile.sub;
+                                user.username = profile.name;
+                                user.name = profile.name;
+                                user.email = profile.email;
+                                user.save(function(err) {
+                                    res.send({ token: security.createToken(user) });
+                                });
+                            }
+                        );
+                    }
+                });
+            });
     });
 
     

@@ -9,5 +9,6 @@ console.log('************** START');
 
 initDB.initialize(config);
 initDB.addAdminUser(function() {});
+initDB.addTasks(function() {});
 
 console.log('************** END');

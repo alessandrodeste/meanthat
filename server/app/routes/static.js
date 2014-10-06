@@ -1,7 +1,10 @@
-var express = require('express');
-var compression = require('compression')
+// static.js
 
-module.exports =function(app, config) {
+var express     = require('express');
+var compression = require('compression')
+var config 	    = require('../../config.js');
+
+module.exports = function(app) {
     // Serve up the favicon
     //app.use(express.favicon(config.server.distFolder + '/favicon.ico'));
     

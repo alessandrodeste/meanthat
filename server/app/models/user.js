@@ -10,13 +10,14 @@ var MAX_LOGIN_ATTEMPTS 	= 5;
 var LOCK_TIME 			= 2 * 60 * 60 * 1000;
 
 var UserSchema   = new Schema({
-	//_id: Number,
-	username: String,
 	
 	// Identifiers
-	//mail: { type: String, required: true, index: { unique: true } },
-	//password: { type: String, required: true },
+	email: { type: String, required: true, index: { unique: true } },
+	username:  { type: String, required: true, index: { unique: true } }, // default equal email
+	first_name: String,
+	family_name: String,
 	
+	// Credentials
 	local            : {
       email        : String,
       password     : String,
@@ -32,12 +33,11 @@ var UserSchema   = new Schema({
 	// Security
 	loginAttempts: { type: Number, required: true, default: 0 },
     lockUntil: { type: Number },
-	
-	// User attributes
 	role: Number, // 0: none, 1: disabled, 2: user, 5: admin, 10: su
-	favorite_tags: [String],
-	firstName: String,
-	lastName: String
+	
+	// Applicational attributes
+	favorite_tags: [String]
+	
 }, {
     collection: 'users'
 });
