@@ -8,10 +8,11 @@ function uid(len) {
     .replace(/\+/g, '_');
 }
 
+//------------------------------------------------------------------
 // The xsrf middleware provide AngularJS style XSRF-TOKEN provision and validation
 // Add it to your server configuration after the session middleware:
 //   app.use(xsrf);
-//  
+//------------------------------------------------------------------
 module.exports = function(req, res, next) {
   // Generate XSRF token
   var token = req.session._csrf || (req.session._csrf = uid(24));

@@ -1,5 +1,6 @@
-
-
+//
+// Google client api Facet
+//
 angular.module('security.social.googleHelper', [
     'app.config', 
     'services'])
@@ -42,7 +43,9 @@ angular.module('security.social.googleHelper', [
     // Private Functions
     //
     
+    //------------------------------------------------------------------
     // Ok, I'm logged. Wait for server checks
+    //------------------------------------------------------------------
     var serverCallback = function(access_token, callbackUserInfo) {
 
         var googleResult = Security.google.callback({
@@ -78,7 +81,9 @@ angular.module('security.social.googleHelper', [
        
             signedIn: false,
             
+            //------------------------------------------------------------------
             // Inizializations of google library (gapi)
+            //------------------------------------------------------------------
             init: function() {
                 // Asynchronously load the G+ SDK.
                 var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -90,7 +95,9 @@ angular.module('security.social.googleHelper', [
                 var s2 = document.getElementsByTagName('script')[0]; s2.parentNode.insertBefore(po2, s2);
             },
             
+            //------------------------------------------------------------------
             // Callback from google services: check results
+            //------------------------------------------------------------------
             signInCallback: function(authResult, callbackUserInfo) {
                 // Do a check if authentication has been successful.
                 if(authResult['access_token']) {
@@ -111,7 +118,9 @@ angular.module('security.social.googleHelper', [
                 }
             },
             
+            //------------------------------------------------------------------
             // Process user info
+            //------------------------------------------------------------------
             processUserInfo: function(userInfo) {
               
               // TODO
@@ -120,7 +129,9 @@ angular.module('security.social.googleHelper', [
               
             },
             
+            //------------------------------------------------------------------
             // Render Google+ Button
+            //------------------------------------------------------------------
             renderGoogleSignInButton: function(callback) {
     
                 gapi.signin.render('signInButton',
@@ -135,7 +146,9 @@ angular.module('security.social.googleHelper', [
                 );
             },
             
+            //------------------------------------------------------------------
             // Request user info.
+            //------------------------------------------------------------------
             getUserInfo: function(callback) {
               gapi.client.request(
                   {
@@ -146,7 +159,9 @@ angular.module('security.social.googleHelper', [
               );
             },
             
+            //------------------------------------------------------------------
             // Sign out from google services
+            //------------------------------------------------------------------
             logout: function()
             {
                 gapi.auth.signOut();

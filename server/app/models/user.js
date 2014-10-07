@@ -1,7 +1,8 @@
 // app/models/user.js
 
-// good ideas: http://devsmash.com/blog/implementing-max-login-attempts-with-mongoose
-
+//------------------------------------------------------------------
+// Declaration time
+//------------------------------------------------------------------
 var mongoose            = require('mongoose');
 var Schema              = mongoose.Schema;
 var bcrypt			    = require('bcryptjs');
@@ -9,6 +10,9 @@ var SALT_WORK_FACTOR 	= 10;
 var MAX_LOGIN_ATTEMPTS 	= 5;
 var LOCK_TIME 			= 2 * 60 * 60 * 1000;
 
+//------------------------------------------------------------------
+// User Schema
+//------------------------------------------------------------------
 var UserSchema   = new Schema({
 	
 	// Identifiers
@@ -42,7 +46,10 @@ var UserSchema   = new Schema({
     collection: 'users'
 });
 
+//------------------------------------------------------------------
+// Pre-Save action
 // FIXME: local.password
+//------------------------------------------------------------------
 UserSchema.pre('save', function(next) {
     var user = this;
 
@@ -64,12 +71,16 @@ UserSchema.pre('save', function(next) {
     });
 });
 
-// methods ======================
-// generating a hash
+//------------------------------------------------------------------
+// method: generating a hash
+//------------------------------------------------------------------
 UserSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_WORK_FACTOR), null);
 };
 
+//------------------------------------------------------------------
+// method: compare password
+//------------------------------------------------------------------
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) return cb(err);
@@ -77,18 +88,24 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
     });
 };
 
+//------------------------------------------------------------------
+// property: isLocked (boolean)
+//------------------------------------------------------------------
 UserSchema.virtual('isLocked').get(function() {
     // check for a future lockUntil timestamp
     return !!(this.lockUntil && this.lockUntil > Date.now());
 });
 
-// checking if password is valid (used by scotch.io)
+//------------------------------------------------------------------
+// method: checking if password is valid (used by scotch.io)
+//------------------------------------------------------------------
 UserSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
-
-
+//------------------------------------------------------------------
+// method: increment login attempts
+//------------------------------------------------------------------
 UserSchema.methods.incLoginAttempts = function(cb) {
     // if we have a previous lock that has expired, restart at 1
     if (this.lockUntil && this.lockUntil < Date.now()) {
@@ -106,13 +123,18 @@ UserSchema.methods.incLoginAttempts = function(cb) {
     return this.update(updates, cb);
 };
 
-// expose enum on the model, and provide an internal convenience reference 
+//------------------------------------------------------------------
+// enum: expose enum on the model, and provide an internal convenience reference 
+//------------------------------------------------------------------
 var reasons = UserSchema.statics.failedLogin = {
     NOT_FOUND: 0,
     PASSWORD_INCORRECT: 1,
     MAX_ATTEMPTS: 2
 };
 
+//------------------------------------------------------------------
+// increment login attempts
+//------------------------------------------------------------------
 UserSchema.statics.getAuthenticated = function(email, password, cb) {
     this.findOne({ 'local.email': email }, function(err, user) {
         if (err) return cb(err);
@@ -159,12 +181,16 @@ UserSchema.statics.getAuthenticated = function(email, password, cb) {
     });
 };
 
+//------------------------------------------------------------------
+// return cleanup user (no sensible information)
+//------------------------------------------------------------------
 UserSchema.statics.filterOutputUser = function(user) {
   if ( user ) {
     return {
       user : {
         id: user._id.$oid,
-        email: user.google.email
+        username: user.username,
+        email: user.email
       }
     };
   } else {

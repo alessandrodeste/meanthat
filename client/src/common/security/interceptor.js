@@ -1,3 +1,6 @@
+//
+// Interceptor: middleware on server requests
+//
 angular.module('security.interceptor', ['security.retryQueue'])
 
 /*
@@ -19,9 +22,11 @@ angular.module('security.interceptor', ['security.retryQueue'])
 }])
 */
 
-// Token in header...
+//------------------------------------------------------------------
+// Check Token in header:
 // on login success: $window.sessionStorage.setItem('token', data.token);
 // on login failed:  $window.sessionStorage.removeItem('token');
+//------------------------------------------------------------------
 .factory('authInterceptor', function ($window, $q) {
     return {
         request: function(config) {
@@ -40,6 +45,7 @@ angular.module('security.interceptor', ['security.retryQueue'])
     };
 })
 
+//------------------------------------------------------------------
 // Register the previously created AuthInterceptor.
 .config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptor');

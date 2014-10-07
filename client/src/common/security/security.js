@@ -7,14 +7,18 @@ angular.module('security.service', [
 
     .factory('security', ['$http', '$q', '$location', 'securityRetryQueue', '$modal', function($http, $q, $location, queue, $modal) {
 
+        //------------------------------------------------------------------
         // TOREM?
         // Redirect to the given url (defaults to '/')
+        //------------------------------------------------------------------
         function redirect(url) {
             url = url || '/';
             $location.path(url);
         }
 
+        //------------------------------------------------------------------
         // Login form dialog stuff
+        //------------------------------------------------------------------
         function onLoginDialogClose(success) {
             if ( success ) {
                 queue.retryAll();
@@ -22,6 +26,10 @@ angular.module('security.service', [
                 queue.cancelAll();
             }
         }
+        
+        //------------------------------------------------------------------
+        // Open Dialog box
+        //------------------------------------------------------------------
         function openLoginDialog() {
             var modalInstance = $modal.open({
                 templateUrl: 'security/login/form.tpl.html', 
@@ -29,15 +37,19 @@ angular.module('security.service', [
             modalInstance.result.then(onLoginDialogClose);
         }
         
+        //------------------------------------------------------------------
         // FIXME
         // Register a handler for when an item is added to the retry queue
+        //------------------------------------------------------------------
         queue.onItemAddedCallbacks.push(function(retryItem) {
             if ( queue.hasMore() ) {
                 service.showLogin();
             }
         });
 
+        //
         // The public API of the service
+        //
         var service = {
 
             //-------------------------------------------------------------------

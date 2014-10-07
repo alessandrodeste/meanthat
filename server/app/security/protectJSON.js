@@ -1,5 +1,8 @@
+
+//------------------------------------------------------------------
 // JSON vulnerability protection
 // we prepend the data with ")]},\n", which will be stripped by $http in AngularJS
+//------------------------------------------------------------------
 module.exports = function(req, res, next) {
   var _send = res.send;
   res.send = function(body) {
