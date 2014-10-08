@@ -5,7 +5,7 @@ angular.module('security.service', [
         'ui.bootstrap'     // Used to display the login form as a modal dialog.
     ])
 
-    .factory('security', ['$http', '$q', '$location', 'securityRetryQueue', '$modal', function($http, $q, $location, queue, $modal) {
+    .factory('security', ['$http', '$q', '$location', 'securityRetryQueue', '$modal', '$window', function($http, $q, $location, queue, $modal, $window) {
 
         //------------------------------------------------------------------
         // TOREM?
@@ -17,6 +17,7 @@ angular.module('security.service', [
         }
 
         //------------------------------------------------------------------
+        // FIXME
         // Login form dialog stuff
         //------------------------------------------------------------------
         function onLoginDialogClose(success) {
@@ -30,13 +31,24 @@ angular.module('security.service', [
         //------------------------------------------------------------------
         // Open Dialog box
         //------------------------------------------------------------------
-        function openLoginDialog() {
-            var modalInstance = $modal.open({
-                templateUrl: 'security/login/form.tpl.html', 
-                controller: 'LoginFormController'});
+        function openDialog(isLogin) {
+            var modalInstance;
+            if (isLogin) {
+                // is Sign in
+                modalInstance = $modal.open({
+                    templateUrl: 'security/login/form.tpl.html',
+                    controller: 'SignInFormCtrl'
+                });
+            } else {
+                // is Sign up
+                modalInstance = $modal.open({
+                    templateUrl: 'security/login/form.tpl.html',
+                    controller: 'SignUpFormCtrl'
+                });
+            }
             modalInstance.result.then(onLoginDialogClose);
         }
-        
+
         //------------------------------------------------------------------
         // FIXME
         // Register a handler for when an item is added to the retry queue
@@ -56,7 +68,14 @@ angular.module('security.service', [
             // Show the modal login dialog
             //-------------------------------------------------------------------
             showLogin: function() {
-                openLoginDialog();
+                openDialog(true);
+            },
+
+            //-------------------------------------------------------------------
+            // Show the modal login dialog
+            //-------------------------------------------------------------------
+            showSignup: function() {
+                openDialog(false);
             },
 
             //-------------------------------------------------------------------
@@ -65,11 +84,18 @@ angular.module('security.service', [
             login: function(email, password) {
                 var request = $http.post('/login', {email: email, password: password});
                 return request.then(function(response) {
-                    service.currentUser = response.data.user;
-                    if ( service.isAuthenticated() ) {
-                        closeLoginDialog(true);
-                    }
-                    return service.isAuthenticated();
+
+                    // Store token!
+                    $window.sessionStorage.token = response.data.token;
+
+                    service.currentUser = null;
+                    var request = $http.get('/api/secured/loggedin');
+                    return request.then(function(response) {
+
+                        service.currentUser = response.data.user;
+
+                        return service.isAuthenticated();
+                    });
                 });
             },
 

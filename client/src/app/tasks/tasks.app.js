@@ -26,7 +26,7 @@ angular.module('tasks.app').config(['$stateProvider',
                 //        return Tasks.all();
                 //    }]
             //},
-            controller: 'TasksListCtl'
+            controller: 'TasksListCtrl'
         })
         
         .state('tasks.list', {

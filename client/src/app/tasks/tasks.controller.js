@@ -7,7 +7,7 @@ angular.module('tasks.controller', [
 ]);
 
 
-angular.module('tasks.controller').controller('TasksListCtl', ['$scope', '$state', 'Tasks',
+angular.module('tasks.controller').controller('TasksListCtrl', ['$scope', '$state', 'Tasks',
     function (  $scope,   $state,   Tasks) {
         
         $scope.loadTasks = function() {

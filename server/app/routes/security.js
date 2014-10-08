@@ -20,22 +20,54 @@ module.exports = function(app) {
     //-------------------------------------------------------------------
     // Ping if is logged in // FIXME
     //-------------------------------------------------------------------
-    app.get('/loggedin', function(req, res) { 
-        res.send(req.isAuthenticated() ? req.user : '0'); 
+    app.get('/api/secured/loggedin', function(req, res) {
+        res.send(req.isAuthenticated() ? { 'user': req.user } : '0');
     });
     
-    // =============================================================================
-    // AUTHENTICATE (FIRST LOGIN) ==================================================
-    // =============================================================================
+    //-------------------------------------------------------------------
+    // Execute login - POST
+    //-------------------------------------------------------------------
+    app.post('/login', function(req, res, next) {
 
-    //-------------------------------------------------------------------
-    // Execute login - POST // FIXME
-    //-------------------------------------------------------------------
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/profile', // redirect to the secure profile section
-        failureRedirect: '/login', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
+        var password = req.body.password;
+        var email = req.body.email;
+
+        // Use lower-case e-mails to avoid case-sensitive e-mail matching
+        if (email) {email = email.toLowerCase(); }
+
+        // asynchronous
+        process.nextTick(function() {
+
+            // attempt to authenticate user
+            User.getAuthenticated(email, password, function(err, user, reason) {
+
+                if (err) {
+                    return res.status(400).send( err.message );
+                }
+
+                // login was successful if we have a user
+                if (user) {
+                    return res.send({ token: security.createToken(user) });
+                }
+
+                // otherwise we can determine why we failed
+                var reasons = User.failedLogin;
+                switch (reason) {
+                    case reasons.MAX_ATTEMPTS:
+                        // send email or otherwise notify user that account is
+                        // temporarily locked
+                        return res.status(400).send({ message: 'Login Error: user blocked' });
+                    default:
+                    case reasons.NOT_FOUND:
+                    case reasons.PASSWORD_INCORRECT:
+                        // note: these cases are usually treated the same - don't tell
+                        // the user *why* the login failed, only that it did
+                        return res.status(400).send({ message: 'Login Error: check user and password' });
+                }
+            });
+        });
+
+    });
     
     //-------------------------------------------------------------------
     // Execute signup - POST // FIXME
@@ -49,8 +81,7 @@ module.exports = function(app) {
     //-------------------------------------------------------------------
     // Check token recieved from client
     //-------------------------------------------------------------------
-    app.post('/auth/google/callback',
-        function(req, res, next) {
+    app.post('/auth/google/callback', function(req, res, next) {
          
             var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
             
@@ -84,7 +115,7 @@ module.exports = function(app) {
                     if (req.headers.authorization) {
                         User.findOne({ 'google.id': profile.sub }, function(err, existingUser) {
                             if (existingUser) {
-                              return res.status(409).send({ message: 'There is already a Google account that belongs to you' });
+                                return res.status(409).send({ message: 'There is already a Google account that belongs to you' });
                             }
                         
                             var token = req.headers.authorization.split(' ')[1];
@@ -92,7 +123,7 @@ module.exports = function(app) {
                         
                             User.findById(payload.sub, function(err, user) {
                                 if (!user) {
-                                  return res.status(400).send({ message: 'User not found' });
+                                    return res.status(400).send({ message: 'User not found' });
                                 }
                                 
                                 // Save google user

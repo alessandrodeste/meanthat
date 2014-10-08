@@ -24,7 +24,7 @@ var UserSchema   = new Schema({
 	// Credentials
 	local            : {
       email        : String,
-      password     : String,
+      password     : String
     },
    
     google           : {
@@ -47,25 +47,24 @@ var UserSchema   = new Schema({
 });
 
 //------------------------------------------------------------------
-// Pre-Save action
-// FIXME: local.password
+// Pre-Save action (add salt in password)
 //------------------------------------------------------------------
 UserSchema.pre('save', function(next) {
     var user = this;
 
     // only hash the password if it has been modified (or is new)
-    if (!user.isModified('password')) return next();
+    if (!user.isModified('local.password')) return next();
 
     // generate a salt
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
         if (err) return next(err);
 
         // hash the password along with our new salt
-        bcrypt.hash(user.password, salt, function(err, hash) {
+        bcrypt.hash(user.local.password, salt, function(err, hash) {
             if (err) return next(err);
 
             // override the cleartext password with the hashed one
-            user.password = hash;
+            user.local.password = hash;
             next();
         });
     });
@@ -74,15 +73,15 @@ UserSchema.pre('save', function(next) {
 //------------------------------------------------------------------
 // method: generating a hash
 //------------------------------------------------------------------
-UserSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_WORK_FACTOR), null);
-};
+//UserSchema.methods.generateHash = function(password) {
+//    return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_WORK_FACTOR), null);
+//};
 
 //------------------------------------------------------------------
 // method: compare password
 //------------------------------------------------------------------
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    bcrypt.compare(candidatePassword, this.local.password, function(err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
     });
@@ -99,9 +98,9 @@ UserSchema.virtual('isLocked').get(function() {
 //------------------------------------------------------------------
 // method: checking if password is valid (used by scotch.io)
 //------------------------------------------------------------------
-UserSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
-};
+//UserSchema.methods.validPassword = function(password) {
+//    return bcrypt.compareSync(password, this.local.password);
+//};
 
 //------------------------------------------------------------------
 // method: increment login attempts
@@ -133,7 +132,7 @@ var reasons = UserSchema.statics.failedLogin = {
 };
 
 //------------------------------------------------------------------
-// increment login attempts
+// Authenticate user (local strategies) and increment login attempts
 //------------------------------------------------------------------
 UserSchema.statics.getAuthenticated = function(email, password, cb) {
     this.findOne({ 'local.email': email }, function(err, user) {

@@ -65,6 +65,7 @@ Is NOT working
 - [google-api-nodejs-client](https://github.com/google/google-api-nodejs-client/)
 - [SignIn Button](http://garage.socialisten.at/2013/03/hacking-google-plus-the-sign-in-button/)
 - [G+ Angular JS Integration](https://blog.codecentric.de/en/2014/06/angularjs-google-sign-integration/)
+- [Node authentication](http://scotch.io/tutorials/javascript/easy-node-authentication-linking-all-accounts-together)
 
 ### future reading, security issues:
 - [csrf and node](http://sporcic.org/2012/06/csrf-with-nodejs-and-express/)

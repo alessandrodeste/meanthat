@@ -10,13 +10,19 @@ module.exports = function(passport) {
     // =========================================================================
     // passport session setup ==================================================
     // =========================================================================
+    //-------------------------------------------------------------------
     // required for persistent login sessions
+    // NOT USED
+    //-------------------------------------------------------------------
     passport.serializeUser(function(user, done) {
         console.log('serializeUser: ' + user.id);
         done(null, user.id);
         //done(null, user.id);
     });
+    //-------------------------------------------------------------------
     // used to deserialize the user
+    // NOT USED
+    //-------------------------------------------------------------------
     passport.deserializeUser(function(id, done) {
         console.log('deserializeUser: ' + id);
         User.findById(id, function(err, user){
@@ -35,40 +41,7 @@ module.exports = function(passport) {
             passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
         },
         function(req, email, password, done) {
-            if (email)
-                email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
-            // asynchronous
-            process.nextTick(function() {
-                
-                // attempt to authenticate user
-                User.getAuthenticated(email, password, function(err, user, reason) {
-                    if (err) 
-                        return done(err);
-            
-                    // login was successful if we have a user
-                    if (user) {
-                        // handle login success
-                        console.log('login success');
-                        return done(null, user);
-                    }
-            
-                    // otherwise we can determine why we failed
-                    var reasons = User.failedLogin;
-                    switch (reason) {
-                        case reasons.NOT_FOUND:
-                            // return done(null, false, req.flash('loginMessage', 'No user found.'));
-                        case reasons.PASSWORD_INCORRECT:
-                            // note: these cases are usually treated the same - don't tell
-                            // the user *why* the login failed, only that it did
-                            //return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-                            return done(null, false, req.flash('loginMessage', 'Login Error: check user and password'));
-                        case reasons.MAX_ATTEMPTS:
-                            // send email or otherwise notify user that account is
-                            // temporarily locked
-                            return done(null, false, req.flash('loginMessage', 'Login Error: user blocked'));
-                    }
-                });
-            });
+
         }));
     // =========================================================================
     // LOCAL SIGNUP ============================================================

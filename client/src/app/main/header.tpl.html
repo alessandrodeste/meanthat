@@ -23,24 +23,9 @@
                         <li><a href="/task/list/v2">List2</a></li>
                     </ul>
                 </li>
-
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li ng-show="hasPendingRequests()"><a href="#"><img src="/static/img/spinner.gif"></a></li>
-                <li ng-class="{active:isNavbarActive('home')}"><a href="/home">Home</a></li>
-                <li><a href="/logout">Logout</a></li>
-                <li class="dropdown" ng-show="isAuthenticated()">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Infos <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">profile...</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown" ng-show="isAdmin()">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Tools <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li ng-class="{active:isNavbarActive('admin'), open:isAdminOpen}"><a href="#">Users</a></li>
-                    </ul>
-                </li>
             </ul>
             <login-toolbar></login-toolbar>
         </div><!--/.nav-collapse -->
