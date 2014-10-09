@@ -1,7 +1,7 @@
 meanthat
 ========
 
-This is a prototype of mean stack project. *For now, just for fun.*
+MEAN stack project playground. *just for fun.*
 
 ## Status
 
