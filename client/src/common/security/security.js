@@ -5,7 +5,8 @@ angular.module('security.service', [
         'ui.bootstrap'     // Used to display the login form as a modal dialog.
     ])
 
-    .factory('security', ['$http', '$q', '$location', 'securityRetryQueue', '$modal', '$window', function($http, $q, $location, queue, $modal, $window) {
+    .factory('security', ['$http', '$q', '$location', 'securityRetryQueue', '$modal', '$window', '$resource',
+        function($http, $q, $location, queue, $modal, $window, $resource) {
 
         //------------------------------------------------------------------
         // TOREM?
@@ -85,17 +86,30 @@ angular.module('security.service', [
                 var request = $http.post('/login', {email: email, password: password});
                 return request.then(function(response) {
 
-                    // Store token!
-                    $window.sessionStorage.token = response.data.token;
-
-                    service.currentUser = null;
-                    var request = $http.get('/api/secured/loggedin');
-                    return request.then(function(response) {
-
-                        service.currentUser = response.data.user;
-
+                    return service.loginSuccess(response.data.token, function() {
                         return service.isAuthenticated();
                     });
+                });
+            },
+            
+            //-------------------------------------------------------------------
+            // Action on login success: Fill currentUser and store token
+            //-------------------------------------------------------------------
+            loginSuccess: function (token, callback) {
+                
+                // Store token!
+                $window.sessionStorage.token = token;
+
+                service.currentUser = null;
+                var request = $http.get('/api/secured/loggedin');
+                return request.then(function(response) {
+
+                    service.currentUser = response.data.user;
+
+                    if (callback && typeof (callback) === 'function')
+                    {
+                        return callback();
+                    }
                 });
             },
 
@@ -140,7 +154,17 @@ angular.module('security.service', [
             //-------------------------------------------------------------------
             isAdmin: function() {
                 return !!(service.currentUser && service.currentUser.admin);
-            }
+            },
+            
+            local: $resource('/api/:action', {},
+            {
+                all: {method:'GET', isArray: false, params: {action: 'login'}}
+            }),
+            
+            google: $resource('/auth/google/:action', {},
+            {
+                callback: {method:'POST', isArray: false, params: {action: 'callback'}}
+            })
         };
 
         return service;

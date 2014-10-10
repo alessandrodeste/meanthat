@@ -37,7 +37,7 @@ angular.module('security.social.googleHelper', [
 //    // Render the sign in button.
 //    $scope.renderGoogleSignInButton = googleHelper.renderGoogleSignInButton;
 //
-.factory('googleHelper', ['CONFIG_SERVICES', 'Security', '$window', function(CONFIG_SERVICES, Security, $window) {
+.factory('googleHelper', ['CONFIG_SERVICES', 'security', '$window', function(CONFIG_SERVICES, security, $window) {
 
     // 
     // Private Functions
@@ -48,21 +48,21 @@ angular.module('security.social.googleHelper', [
     //------------------------------------------------------------------
     var serverCallback = function(access_token, callbackUserInfo) {
 
-        var googleResult = Security.google.callback({
+        var googleResult = security.google.callback({
                 access_token:   access_token, 
                 client_id:      CONFIG_SERVICES.google.client_id},
                 
             // Success
             function(result) {
             
-                // Store token!
-                $window.sessionStorage.token = result.token;
-                
-                // If needed, get additional info from services
-                if (callbackUserInfo && typeof (callbackUserInfo) === 'function')
-                {
-                    googleHelper.getUserInfo(callbackUserInfo);
-                }
+                security.loginSuccess(result.token, function() {
+                    // If needed, get additional info from services
+                    if (callbackUserInfo && typeof (callbackUserInfo) === 'function')
+                    {
+                        googleHelper.getUserInfo(callbackUserInfo);
+                    }
+                });
+               
             },
             // Error
             function(error) {
