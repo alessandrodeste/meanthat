@@ -80,6 +80,19 @@ angular.module('security.service', [
             },
 
             //-------------------------------------------------------------------
+            // Attempt to sign up 
+            //-------------------------------------------------------------------
+            signup: function(email, password) {
+                var request = $http.post('/signup', {email: email, password: password});
+                return request.then(function(response) {
+
+                    return service.loginSuccess(response.data.token, function() {
+                        return service.isAuthenticated();
+                    });
+                });
+            },
+            
+            //-------------------------------------------------------------------
             // Attempt to authenticate a user by the given email and password
             //-------------------------------------------------------------------
             login: function(email, password) {
@@ -119,6 +132,8 @@ angular.module('security.service', [
             logout: function(redirectTo) {
                 $http.post('/logout').then(function() {
                     service.currentUser = null;
+                    $window.sessionStorage.removeItem('token');
+                    // delete $window.sessionStorage.token;
                     // FIXME: redirect(redirectTo);
                 });
             },
@@ -130,7 +145,7 @@ angular.module('security.service', [
                 if ( service.isAuthenticated() ) {
                     return $q.when(service.currentUser);
                 } else {
-                    return $http.get('/current-user').then(function(response) {
+                    return $http.get('/api/secured/loggedin').then(function(response) {
                         service.currentUser = response.data.user;
                         return service.currentUser;
                     });

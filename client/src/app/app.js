@@ -20,11 +20,12 @@ angular.module('app', [
 ]);
 
 // On Start application
-angular.module('app').run(['$rootScope', '$state', '$stateParams', 'googleHelper', function($rootScope, $state, $stateParams, googleHelper) { //security
+angular.module('app').run(['$rootScope', '$state', '$stateParams', 'googleHelper', 'security', 
+    function($rootScope, $state, $stateParams, googleHelper, security) {
 
     // Get the current user when the application starts
     // (in case they are still logged in from a previous session)
-    //security.requestCurrentUser();
+    security.requestCurrentUser();
 
     // Globals for user states
     //$rootScope.$state = $state;
@@ -35,7 +36,8 @@ angular.module('app').run(['$rootScope', '$state', '$stateParams', 'googleHelper
 }]);
 
 
-angular.module('app').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
+angular.module('app').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', 
+    function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true); //.hashPrefix('!');
 

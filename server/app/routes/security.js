@@ -13,12 +13,13 @@ module.exports = function(app) {
     // Execute logout // FIXME
     //-------------------------------------------------------------------
     app.get('/logout', function(req, res) {
+        // FIXME: token is still in memory... how can I revoke it?
         req.logout();
         res.send(200);
     });
     
     //-------------------------------------------------------------------
-    // Ping if is logged in // FIXME
+    // Ping if is logged in
     //-------------------------------------------------------------------
     app.get('/api/secured/loggedin', function(req, res) {
         res.send(req.isAuthenticated() ? { 'user': req.user } : '0');
@@ -70,13 +71,70 @@ module.exports = function(app) {
     });
     
     //-------------------------------------------------------------------
-    // Execute signup - POST // FIXME
+    // Execute signup - POST // FIXME: send password via mail
     //-------------------------------------------------------------------
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/profile', // redirect to the secure profile section
-        failureRedirect: '/signup', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
+    app.post('/signup', function(req, res, next) {
+
+        var password = req.body.password;
+        var email = req.body.email;
+
+        // Use lower-case e-mails to avoid case-sensitive e-mail matching
+        if (email) {email = email.toLowerCase(); }
+
+        // asynchronous
+        process.nextTick(function() {
+
+            // if the user is not already logged in:
+            if (!req.user) {
+                User.findOne({ 'local.email': email }, function(err, user) {
+                    
+                    // if there are any errors, return the error
+                    if (err) {
+                        return res.status(400).send( err.message );
+                    }
+                    // check to see if theres already a user with that email
+                    if (user) {
+                        return res.status(400).send( { message: 'That email is already taken.' } );
+                        
+                    } else {
+                        // create the user
+                        var newUser = new User();
+                        newUser.role = 1;
+                        newUser.username = email;
+                        newUser.email = email;
+                        newUser.local.email = email;
+                        newUser.local.password = password;
+                        newUser.save(function(err) {
+                            if (err) {    
+                                return res.status(400).send( err.message );
+                            }
+                            return res.send({ token: security.createToken(newUser) });
+                        });
+                    }
+                });
+            }
+            
+            // if the user is logged in but has no local account...
+            else if (!req.user.local.email) {
+                
+                // ...presumably they're trying to connect a local account
+                var user = req.user;
+                user.local.email = email;
+                user.local.password = user.generateHash(password);
+                user.save(function(err) {
+                    if (err) {
+                        return res.status(400).send( err.message );
+                    }
+                    return res.send({ token: security.createToken(user) });
+                });
+            }
+            else {
+                // user is logged in and already has a local account
+                return res.status(200).send( { message: 'Already signed up' } );
+            }
+        });
+
+    });
     
     //-------------------------------------------------------------------
     // Check token recieved from client
@@ -215,6 +273,7 @@ module.exports = function(app) {
     // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
     // =============================================================================
     // locally --------------------------------
+    /*
     app.get('/connect/local', function(req, res) {
         res.render('connect-local.ejs', {
             message: req.flash('loginMessage')
@@ -225,6 +284,8 @@ module.exports = function(app) {
         failureRedirect: '/connect/local', // redirect back to the signup page if there is an error
         failureFlash: true // allow flash messages
     }));
+    */
+    
     
     /*
     // google ---------------------------------
@@ -246,6 +307,7 @@ module.exports = function(app) {
     // for local account, remove email and password
     // user account will stay active in case they want to reconnect in the future
     // local -----------------------------------
+    /*
     app.get('/unlink/local', function(req, res) {
         var user = req.user;
         user.local.email = undefined;
@@ -254,7 +316,7 @@ module.exports = function(app) {
             res.redirect('/profile');
         });
     });
-    /*
+    
     // google ---------------------------------
     app.get('/unlink/google', function(req, res) {
         var user = req.user;

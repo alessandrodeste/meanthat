@@ -38,8 +38,13 @@ mongoose.connect('mongodb://' + config.mongo.dbUrl + '/' + config.security.dbNam
 // =============================================================================
 // We are going to protect /api routes with JWT
 app.use('/api/secured', expressJwt({secret: config.server.tokenSecret}));
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.send(401, 'Invalid token');
+    }
+});
 
-require('./app/security/strategies')(passport, config); // init passport strategies
+//require('./app/security/strategies')(passport, config); // init passport strategies
 require('./app/routes/security')(app);
 require('./app/routes/cors')(app);
 require('./app/routes/static')(app);
