@@ -1,5 +1,6 @@
 <div class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
+    
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -9,11 +10,13 @@
             </button>
             <a class="navbar-brand" href="#">MeanThat!</a>
         </div>
+        
         <div class="navbar-collapse collapse">
+        
             <ul class="nav navbar-nav">
                 <li ng-class="{active:isNavbarActive('home')}"><a href="/home">Home</a></li>
                 <li ng-class="{active:isNavbarActive('about')}"><a href="/about">About</a></li>
-                <li class="dropdown">
+                <li class="dropdown" ng-show="isAuthenticated()">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-class="{active:isNavbarActive('tasks')}"><a href="/tasks">tasks</a></li>
@@ -24,10 +27,33 @@
                     </ul>
                 </li>
             </ul>
+            
             <ul class="nav navbar-nav navbar-right">
                 <li ng-show="hasPendingRequests()"><a href="#"><img src="/static/img/spinner.gif"></a></li>
             </ul>
-            <login-toolbar></login-toolbar>
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li class="divider-vertical"></li>
+                <li ng-show="isAuthenticated()">
+                    <a href="#">{{currentUser.firstName}} {{currentUser.lastName}}</a>
+                </li>
+                <li ng-show="isAuthenticated()" class="logout">
+                    <form class="navbar-form">
+                        <button class="btn logout" ng-click="logout()">Log out</button>
+                    </form>
+                </li>
+                <li ng-hide="isAuthenticated()" class="login">
+                    <form class="navbar-form">
+                        <button class="btn login" ng-click="showLogin()">Sign in</button>
+                    </form>
+                </li>
+                <li ng-hide="isAuthenticated()" class="login">
+                    <form class="navbar-form">
+                        <button class="btn login" ng-click="showSignup()">Sign up</button>
+                    </form>
+                </li>
+            </ul>
+            
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
 </div>

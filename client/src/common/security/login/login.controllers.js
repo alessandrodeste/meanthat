@@ -1,4 +1,4 @@
-angular.module('security.login.form', [
+angular.module('security.login', [
     'services.localizedMessages', 
     'security.social.googleHelper'])
 
@@ -33,9 +33,9 @@ angular.module('security.login.form', [
                         closeLoginDialog(true);
                     }
 
-                }, function(x) {
+                }, function(err) {
                     // If we get here then there was a problem with the login request to the server
-                    $scope.authError = localizedMessages.get('login.error.serverError', { exception: x });
+                    $scope.authError = localizedMessages.get('login.error.serverError', { exception: err.data.message });
                 });
             };
         };

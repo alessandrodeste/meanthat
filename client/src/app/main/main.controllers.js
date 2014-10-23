@@ -15,7 +15,11 @@ angular.module('app.main').controller('HeaderCtrl', ['$rootScope', '$scope', '$l
 
     $scope.isAuthenticated = security.isAuthenticated;
     $scope.isAdmin = security.isAdmin;
+    
     $scope.showLogin = security.showLogin;
+    $scope.showSignup = security.showSignup;
+    $scope.logout = security.logout;
+    
     $scope.breadcrumbs = breadcrumbs;
 
     $scope.isNavbarActive = function (navBarPath) {
@@ -25,6 +29,12 @@ angular.module('app.main').controller('HeaderCtrl', ['$rootScope', '$scope', '$l
     $scope.hasPendingRequests = function () {
         return httpRequestTracker.hasPendingRequests();
     };
+    
+    $scope.$watch(function() {
+            return security.currentUser;
+        }, function(currentUser) {
+            $scope.currentUser = currentUser;
+    });
 }]);
 
 angular.module('app.main').controller('FooterCtrl', ['$scope', '$location', function ($scope, $location) {
