@@ -1,3 +1,9 @@
 
 
-<h3>lista!</h3>
+
+<ul>
+    <li ng-repeat="task in tasks">
+        <a href="/tasks/{{task._id}}">{{task.title}}</a>
+        ({{task.perc}} %)
+    </li>
+</ul>

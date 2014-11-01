@@ -6,9 +6,10 @@ angular.module('services', ['ngResource'])
     // Define the API
 
     .factory('Tasks', ['$resource', function($resource) {
-        var Tasks = $resource('/api/secured/tasks', {},
+        var Tasks = $resource('/api/secured/tasks/:id', {id: '@id'},
             {
-                all: {method:'GET', isArray: true}
+                all: {method:'GET', isArray: true, params: {id: ''}},
+                get: {method:'GET', isArray: false}
             }
         );
         return Tasks;

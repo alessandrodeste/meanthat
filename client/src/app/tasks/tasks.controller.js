@@ -4,22 +4,33 @@ angular.module('tasks.controller', [
     'services',
     //'ui.bootstrap',
     'templates.app'
-]);
+])
 
 
-angular.module('tasks.controller').controller('TasksListCtrl', ['$scope', '$state', 'Tasks',
-    function (  $scope,   $state,   Tasks) {
+.controller('TasksListCtrl', ['$scope', '$state', 'Tasks',
+    function ($scope, $state, Tasks) {
         
-        $scope.loadTasks = function() {
+        loadTasks = function() {
             var tasks = Tasks.all(function(tasks) {
                 $scope.tasks = tasks;
             });
         };
+        loadTasks();
         
-        $scope.loadTasks();
-        
-        $scope.goTo = function () {
-            // FIXME
-            $state.go('tasks.detail', { contactId: "1" });
+        $scope.goTo = function (id) {
+            $state.go('tasks.detail', { taskId: id });
         };
+}])
+
+.controller('TasksDetailCtrl', ['$scope', '$stateParams', '$state', 'Tasks',
+    function ($scope, $stateParams, $state, Tasks) {
+        
+        loadTask = function() {
+            var task = Tasks.get({id: $stateParams.taskId}, function(task) {
+                $scope.task = task;
+            });
+        };
+        loadTask();
+        
+        
 }]);
