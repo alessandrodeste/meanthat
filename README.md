@@ -3,45 +3,61 @@ meanthat
 
 MEAN stack project playground. *just for fun.*
 
-## Status
-
-Is NOT working
-
 ## Goals
 
-1. [ ] Find a compromise on folder/file organization
-2. [ ] Try mongodb security and pattern
-3. [ ] Configure Grunt to test his magics
-4. [ ] Have a structured project to start others (no, I will not use yo for now)
-5. [ ] Keep a repository to test new patterns or libraries
+1. Test Angular.js libraries
+    - sub-goal: I miss AMD module... 
+2. Test Node.js libraries
+3. Test Grunt magics
+4. Learn tests driven tools
+5. Learn mongodb security and pattern
+6. Test yo integrations
 
-## What is not?
+## Status
 
-- it is not yo scaffolding
+It's partially working
+- client side:
+    - grunt compile status: OK
+    - CRUD demo module (aka tasks) in progress
+    - google oauth2 authentication (full client) is implemented, refactor needed
+    - authentication token
+    - routing with ui-router
+- server side:
+    - working status: OK
+    - authentication in progress
+    - CRUD demo module (aka tasks) in progress
 
 ## TODO
 
-- [ ] client
+- client
     - [ ] security
     - [ ] services (first taste)
     - [ ] notifications
-- [ ] server
+    - [ ] i18n
+    - [ ] use promises/queues on services request
+- server
     - [ ] security local
-    - [ ] security oauth2 google service
     - [ ] service task
     - [ ] service user
+    - [ ] use mongolab
+    - [ ] try couchdb
 
 ## To Run
 
-1. configurations
-    1. server/config.js.ori to server/config.js
-    2. client/app/src/config.js.ori to client/app/src/config.js
-2. start mongodb
-3. /server/npm install
-4. /client/npm install
-5. /client/grunt default
-6. /server/node initDb.js
-7. /server/node server.js
+1. configurations:
+    1. cp server/config.js.ori server/config.js
+    2. cp client/app/src/config.js.ori client/app/src/config.js
+2. install packages:
+    1. /server/npm install
+    2. /client/npm install
+    3. /client/bower install
+3. install client:
+    1. /client/grunt default
+4. install and start mongodb
+5. install server:
+    1. /server/node initDb.js
+6. start server:
+    1. /server/node server.js
 
 ## Thank you time
 
