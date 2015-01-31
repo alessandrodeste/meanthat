@@ -33,4 +33,33 @@ angular.module('tasks.controller', [
         loadTask();
         
         
+}])
+
+
+.controller('TasksEditCtrl', ['$scope', '$stateParams', '$state', 'Tasks',
+    function ($scope, $stateParams, $state, Tasks) {
+        
+        $scope.isNew = true;
+        
+        if ($stateParams.taskId) {
+            // Edit
+            $scope.isNew = false;
+            loadTask = function() {
+                var task = Tasks.get({id: $stateParams.taskId}, function(task) {
+                    $scope.task = task;
+                });
+            };
+            loadTask();
+            
+        } else {
+            // Create
+            $scope.task = {};
+        }
+        
+        
+        $scope.save = function() {
+            Tasks.save($scope.task, function(data) {
+                alert("saved? " + data);
+            });
+        };
 }]);

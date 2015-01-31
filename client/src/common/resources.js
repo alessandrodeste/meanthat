@@ -9,7 +9,9 @@ angular.module('services', ['ngResource'])
         var Tasks = $resource('/api/secured/tasks/:id', {id: '@id'},
             {
                 all: {method:'GET', isArray: true, params: {id: ''}},
-                get: {method:'GET', isArray: false}
+                get: {method:'GET', isArray: false},
+                save: {method:'POST'},
+                update: {method:'PUT'}
             }
         );
         return Tasks;

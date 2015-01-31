@@ -1,9 +1,16 @@
 
 
 
-<ul>
-    <li ng-repeat="task in tasks">
-        <a href="/tasks/{{task._id}}">{{task.title}}</a>
-        ({{task.perc}} %)
-    </li>
-</ul>
+<div style="width:400px;">
+    <div ng-repeat="task in tasks" class="row" ng-class-even="'even'">
+        <span class="col-md-6">
+            <a href="/tasks/{{task._id}}">{{task.title}} </a>
+        </span>
+        <span class="col-md-6">
+            <a href="/tasks/{{task._id}}/edit" class="btn-small btn-waring"><span class="glyphicon glyphicon-pencil"></span></a>
+            <span class="badge">{{task.perc}} %</span>
+        </span>
+    </div>
+</div>
+
+<a href="/tasks/create">Nuovo <span class="glyphicon glyphicon-plus"></span> </a>
