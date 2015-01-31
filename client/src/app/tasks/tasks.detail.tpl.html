@@ -1,0 +1,23 @@
+
+
+<h3>{{task.title}}</h3>
+
+<div>
+    <div class="row">
+        <span class="col-md-2">Creation Time</span>
+        <span class="col-md-4">{{task.created | date : "MM/dd/yyyy 'at' h:mma"}}</span>
+        <span class="col-md-6"></span>
+    </div>
+    <div class="row">
+        <span class="col-md-2">Description</span>
+        <span class="col-md-4">{{task.descr}}</span>
+        <span class="col-md-6"></span>
+    </div>
+    <div class="row">
+        <span class="col-md-2">Note</span>
+        <span class="col-md-4">{{task.note}}</span>
+        <span class="col-md-6"></span>
+    </div>
+</div>
+
+ <a href="/tasks/{{task._id}}/edit" class="btn btn-warning">Edit</a>
