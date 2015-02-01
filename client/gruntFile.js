@@ -8,7 +8,7 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
   // Default task (check errors, exec build, karma)
-  grunt.registerTask('default', ['jshint','build']); //,'karma:unit'
+  grunt.registerTask('default', ['jshint','build','karma:unit']); //,'karma:unit'
   grunt.registerTask('cleanAll', ['clean']);
   grunt.registerTask('build', ['clean','html2js','concat','less:development','copy:assets']); //'recess:build'
   grunt.registerTask('release', ['clean','html2js','uglify','jshint', 'concat:dist', 'concat:index','less:production','copy:assets']);//,'karma:unit','recess:min'

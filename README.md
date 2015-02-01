@@ -15,7 +15,6 @@ MEAN stack project playground. *just for fun.*
 
 ## Status
 
-It's partially working
 - client side:
     - grunt compile status: OK
     - CRUD demo module (aka tasks) in progress
@@ -23,7 +22,7 @@ It's partially working
     - authentication token
     - routing with ui-router
 - server side:
-    - working status: OK
+    - service status: OK
     - authentication in progress
     - CRUD demo module (aka tasks) in progress
 
